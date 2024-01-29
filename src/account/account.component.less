@@ -1,0 +1,215 @@
+@import '~@delon/theme/index';
+:host ::ng-deep {
+    .container {
+        min-height: 100%;
+        background: #fff;
+        &.login {width: 100% !important; padding: 0 !important;max-width: inherit;}
+    }
+    .wrap {
+        flex: 1;
+        padding: 32px 0;
+    }
+    .ant-form-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 24px;
+    }
+    img {
+        max-width: 100%;
+    }
+    @media (min-width: @screen-md-min) {
+        .logo {
+            margin-bottom: 40px;
+            img {
+                max-height: 200px;
+            }
+            h1 {
+                font-style: normal;
+                font-weight: 600;
+                font-size: 32px;
+                line-height: 39px;
+                color: #445661;
+            }
+        }
+        .login-right {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            .login-form {
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+                width: 100%;
+                max-width: 600px;
+                padding: 0 20px;
+                h3 {
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 30px;
+                    line-height: 36px;
+                    margin-bottom: 30px;
+                }
+                button img {
+                    margin-right: 12px;
+                    margin-top: -3px;
+                }
+                .other-text {
+                    border: solid 1px #ebedf2;
+                    margin: 20px 0 10px 0;
+                    height: 1px;;
+                    text-align: center;
+                    span {
+                        font-size: 16px;
+                        line-height: 24px;
+                        color: #677987;
+                        display: inline-block;
+                        background: #fff;
+                        padding: 0 10px;
+                        top: -12px;
+                        position: relative;
+                    }
+                }
+                .ant-form-item {margin-bottom: 14px;}
+            }
+        }
+    }
+    @media (max-width: 767px) {
+        .login-left {
+            text-align: center;
+            .logo {
+                margin-top: 20px;
+                img {
+                    margin-bottom: 30px;
+                }
+                h1 {
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 24px;
+                    line-height: 30px;
+                    color: #445661;
+                }
+            }
+            .logo-banner{display: none;}
+        }
+        .login-right {
+            position: relative;
+            .login-form {
+                margin: 0;
+                width: 100%;
+                max-width: 600px;
+                h3 {
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 20px;
+                    line-height: 36px;
+                    margin-bottom: 30px;
+                    text-align: center;
+                }
+                button img {
+                    margin-right: 12px;
+                    margin-top: -3px;
+                }
+                .other-text {
+                    border: solid 1px #ebedf2;
+                    margin: 20px 0 10px 0;
+                    height: 1px;;
+                    text-align: center;
+                    span {
+                        font-size: 16px;
+                        line-height: 24px;
+                        color: #677987;
+                        display: inline-block;
+                        background: #fff;
+                        padding: 0 10px;
+                        top: -12px;
+                        position: relative;
+                    }
+                }
+                .ant-form-item {margin-bottom: 14px;}
+            }
+        }
+    }
+
+    .top {
+        text-align: center;
+    }
+    .header {
+        height: 44px;
+        line-height: 44px;
+        a {
+            text-decoration: none;
+        }
+    }
+    .title {
+        position: relative;
+        color: @heading-color;
+        font-weight: 600;
+        font-size: 33px;
+        font-family: 'Myriad Pro', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        vertical-align: middle;
+    }
+    .desc {
+        margin-top: 12px;
+        margin-bottom: 40px;
+        color: @text-color-secondary;
+        font-size: @font-size-base;
+    }
+    .content {
+        display: block;
+        width: 368px;
+        margin: 0 auto;
+    }
+    .language-switch-area {
+        text-align: center;
+        list-style: none;
+        margin: 0px;
+        padding: 10px;
+        > li {
+            display: inline;
+            margin: 0px;
+            padding: 2px;
+            i {
+                display: inline-block;
+            }
+            a {
+                -ms-opacity: 0.5;
+                opacity: 0.5;
+
+                &.language-icon-current {
+                    -ms-opacity: 1;
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}
+
+[data-theme='dark'] {
+    :host ::ng-deep {
+        .container {
+            background: #141414;
+        }
+        .title {
+            color: fade(@white, 85%);
+        }
+        .desc {
+            color: fade(@white, 45%);
+        }
+        @media (min-width: @screen-md-min) {
+            .container {
+                background-image: none;
+            }
+        }
+    }
+}
+
+[data-theme='compact'] {
+    :host ::ng-deep {
+        .ant-form-item {
+            margin-bottom: 16px;
+        }
+    }
+}

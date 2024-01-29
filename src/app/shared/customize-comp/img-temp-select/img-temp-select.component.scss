@@ -1,0 +1,23 @@
+.img-upload {
+    padding: 5px;
+    background-color: white;
+}
+
+.img-circle {
+    border-radius: 50%;
+    // width: 50% !important;
+    // border: 1px solid #9e9e9e;
+}
+
+.wrap-img {
+    margin: auto;
+}
+
+.root{
+    display: flex;
+    .btn-xoa{
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+}

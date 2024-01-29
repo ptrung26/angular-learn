@@ -1,0 +1,29 @@
+<div class="modal-header">
+    <div class="modal-title">
+        <span>{{"Detail"| localize}} - {{entityChange.entityTypeFullName | localize}}</span> <br />
+        <small [innerHTML]="l('CreatedAtByUser', entityChange.changeTime, entityChange.userName)"></small>
+    </div>
+</div>
+
+<nz-table>
+    <thead>
+        <tr>
+            <th>{{"Property" | localize}}</th>
+            <th>{{"OriginalValue" | localize}}</th>
+            <th>{{"NewValue" | localize}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let propertyChange of entityPropertyChanges">
+            <td><strong>{{propertyChange.propertyName}}</strong></td>
+            <td>{{getPropertyChangeValue(propertyChange.originalValue, propertyChange.propertyTypeFullName)}}</td>
+            <td>{{getPropertyChangeValue(propertyChange.newValue, propertyChange.propertyTypeFullName)}}</td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close()">
+        {{"Close" | localize}}
+    </button>
+</div>

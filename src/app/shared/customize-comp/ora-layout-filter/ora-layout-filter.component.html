@@ -1,0 +1,11 @@
+<nz-row class="root" nzJustify="center" nzGutter="16" nzAlign="middle">
+    <nz-col nzFlex="64px" class="col-filter">
+        <i nz-icon nzType="filter" nzTheme="outline"></i>
+    </nz-col>
+    <div nz-col nzFlex="auto" class="col-content" (keydown.enter)="onEnter()">
+        <ng-content></ng-content>
+    </div>
+    <div nz-col nzFlex="116px" class="col-action">
+        <button class="btn-search" nz-button nzType="default" (click)="search()">Áp dụng</button>
+    </div>
+</nz-row>

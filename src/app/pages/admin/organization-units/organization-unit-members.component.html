@@ -1,0 +1,53 @@
+<ng-container *ngIf="organizationUnit">
+    <ng-container *ngIf="isGranted('Pages.Administration.OrganizationUnits.ManageMembers')">
+        <button nz-button nzType="primary" (click)="addMembers()"><i nz-icon nzType="plus"></i> {{"AddMember" | localize}}</button>
+    </ng-container>
+    <nz-row class="my-md">
+        <nz-table #ajaxTable [nzFrontPagination]="false" [nzShowQuickJumper]="true" [nzShowSizeChanger]="true"
+            [nzData]="dataList" [nzTotal]="totalItems" [nzLoading]="isTableLoading" [(nzPageIndex)]="pageNumber"
+            [(nzPageSize)]="pageSize" (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()"
+            [nzShowTotal]="totalTemplate">
+            <ng-template #totalTemplate let-total>
+                {{'TotalRecordsCount' | localize:total}}
+            </ng-template>
+            <thead (nzSortOrderChange)="gridSort($event)">
+                <tr>
+                    <th nzWidth="150px" class="text-center">
+                        {{'Actions' | localize}}
+                    </th>
+                    <th nzShowSort nzColumnKey="userName">
+                        {{'UserName' | localize}}
+                    </th>
+                    <th nzShowSort nzColumnKey="addedTime" class="text-center">
+                        {{'AddedTime' | localize}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of ajaxTable.data">
+                    <td class="text-center">
+                        <ng-container *ngIf="isGranted('Pages.Administration.OrganizationUnits.ManageMembers')">
+                            <a nz-popconfirm
+                                [nzPopconfirmTitle]="l('RemoveUserFromOuWarningMessage', item.userName, organizationUnit.title)"
+                                (nzOnConfirm)="removeMember(item)" [nzOkText]="l('Ok')"
+                                [nzCancelText]="l('Cancel')" class="text-red">
+                                <i nz-icon nzType="delete"></i>
+                                {{'Delete' | localize}}
+                            </a>
+                        </ng-container>
+                    </td>
+                    <td>
+                        {{item.userName}}
+                    </td>
+                    <td class="text-center">
+                        {{item.addedTime | luxonFormat:'D'}}
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-row>
+</ng-container>
+
+<div class="text-center" *ngIf="!organizationUnit">
+    <nz-empty class="ant-empty-normal" [nzNotFoundContent]="l('SelectAnOrganizationUnitToSeeMembers')"></nz-empty>
+</div>

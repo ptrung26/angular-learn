@@ -1,0 +1,19 @@
+<nz-select
+    *ngIf="selectMode!=='multiple';"
+  class="pt-select"
+  [nzAllowClear]="allowClear"
+  [nzPlaceHolder]="placeHolder"
+  [nzMode]="selectMode"
+  [formControl]="control"
+  (ngModelChange)='onChangeValue($event)'
+  [nzDisabled]='_isDisabled' (nzFocus)='onFocus'
+  nzShowSearch
+  nzServerSearch
+  [nzNotFoundContent] = "refNotFound"
+  (nzOnSearch)="search($event)">
+  <nz-option
+    *ngFor="let option of options"
+    [nzLabel]="option.displayText"
+    [nzValue]="option.value"
+  ></nz-option>
+</nz-select>

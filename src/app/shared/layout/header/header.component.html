@@ -1,0 +1,34 @@
+<div class="alain-default__header-logo">
+    <a [routerLink]="['/']" class="alain-default__header-logo-link">
+        <img class="alain-default__header-logo-expanded" src="./assets/logo-new.png" alt="{{settings.app.name}}" style="max-height:40px;" />
+        <img class="alain-default__header-logo-collapsed" src="./assets/logo-1.png" alt="{{settings.app.name}}" style="max-height:30px;" />
+    </a>
+</div>
+<div class="alain-default__nav-wrap">
+    <ul class="alain-default__nav">
+<!--        <li>-->
+<!--            <div class="alain-default__nav-item" (click)="toggleCollapsedSidebar()">-->
+<!--                <i nz-icon nzType="menu-{{settings.layout.collapsed ? 'unfold' : 'fold'}}"></i>-->
+<!--            </div>-->
+<!--        </li>-->
+        <li style="font-weight: bold; text-transform: uppercase; padding-left: 30px">
+            {{appSession.user.tenCoSo}}
+        </li>
+    </ul>
+    <ul class="alain-default__nav">
+        <li *ngIf="isImpersonatedLogin">
+            <button (click)="backToMyAccount()" nz-button nzType="link" title="Quay lại tài khoản chính">
+                <i nz-icon nzType="api" nzTheme="outline"></i>
+            </button>
+        </li>
+        <!-- <li class="hidden-mobile">
+            <language-switch></language-switch>
+        </li> -->
+<!--        <li class="hidden-mobile">-->
+<!--            <header-notifications></header-notifications>-->
+<!--        </li>-->
+        <li class="hidden-mobile">
+            <header-user></header-user>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,122 @@
+<div class="modal-header">
+    <div class="modal-title">
+        {{"AuditLogDetail" | localize}}
+    </div>
+</div>
+<div>
+    <div>
+        <h3>{{"UserInformations" | localize}}</h3>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"UserName" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{auditLog.userName}}</span>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"IpAddress" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{auditLog.clientIpAddress}}</span>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"Client" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{auditLog.clientName}}</span>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"Browser" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{auditLog.browserInfo}}</span>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8" *ngIf="auditLog.impersonatorUserId">
+            <div nz-col [nzSpan]="4">
+                <label></label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{'AuditLogImpersonatedOperationInfo' | localize}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h3>{{"ActionInformations" | localize}}</h3>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"Service" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{auditLog.serviceName}}</span>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"Action" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{auditLog.methodName}}</span>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"Time" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{getExecutionTime()}}</span>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"Duration" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{getDurationAsMs()}}</span>
+            </div>
+        </div>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <label>{{"Parameters" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <pre lang="js">{{getFormattedParameters()}}</pre>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h3>{{"CustomData" | localize}}</h3>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="8">
+                <label> {{"None" | localize}}:</label>
+            </div>
+            <div nz-col [nzSpan]="10">
+                <span>{{auditLog.customData}}</span>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h3>{{"ErrorState" | localize}}</h3>
+        <div nz-row [nzGutter]="8">
+            <div nz-col [nzSpan]="4">
+                <nz-badge *ngIf="auditLog.exception " [nzStatus]="'error'" [nzText]="l('Error')"></nz-badge>
+                <nz-badge *ngIf="!auditLog.exception " [nzStatus]="'success'" [nzText]="l('Success')"></nz-badge>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button nz-button type="button" (click)="close()">
+        {{"Close" | localize}}
+    </button>
+</div>

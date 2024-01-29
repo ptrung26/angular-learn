@@ -1,0 +1,32 @@
+<form nz-form [formGroup]="rfDataModal" (ngSubmit)="onSubmit()">
+    <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="8" nzFor="maHuyen">Mã Quận/Huyện</nz-form-label>
+        <nz-form-control [nzSpan]="14" nzErrorTip="Giá trị bắt buộc !">
+            <input nz-input formControlName="maHuyen" type="text">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="8" nzFor="tenHuyen">Tên Quận/Huyện</nz-form-label>
+        <nz-form-control [nzSpan]="14" nzErrorTip="Giá trị bắt buộc !">
+            <input nz-input formControlName="tenHuyen" type="text">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="8" nzFor="maTinh">Tỉnh/Thành phố</nz-form-label>
+        <nz-form-control [nzSpan]="14" nzErrorTip="Giá trị bắt buộc !">
+            <tinh-combo formControlName='maTinh'></tinh-combo>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzRequired [nzSpan]="8" nzFor="cap">Cấp</nz-form-label>
+        <nz-form-control [nzSpan]="14" nzErrorTip="Giá trị bắt buộc !">
+            <input nz-input formControlName="cap" type="text">
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<div *nzModalFooter>
+    <button type="button" nz-button nzType="default" (click)="close()">Đóng</button>
+    <button type="button" [nzLoading]="saving" nz-button nzType="primary" (click)="onSubmit()"><i nz-icon
+            nzType="save"></i>Lưu
+    </button>
+</div>

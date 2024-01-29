@@ -1,0 +1,83 @@
+.steps-root {
+    display: flex;
+    //justify-content: space-between;
+    ::ng-deep ora-step {
+        width: 100%;
+    }
+
+    ::ng-deep ora-step:first-child {
+        .line.first-line {
+            hr {
+                display: none;
+            }
+        }
+    }
+
+    ::ng-deep ora-step:last-child {
+        .line.last-line {
+            hr {
+                display: none;
+            }
+        }
+    }
+
+}
+
+//
+//.wrapper-progressBar {
+//    width: 100%
+//}
+//
+//.progressBar {
+//}
+//
+//.progressBar li {
+//    list-style-type: none;
+//    float: left;
+//    width: 33%;
+//    position: relative;
+//    text-align: center;
+//}
+//
+//.progressBar li:before {
+//
+//    content: "✔";
+//    color: #fff;
+//    line-height: 30px;
+//    border-radius: 50%;
+//    width: 30px;
+//    height: 30px;
+//    border: 1px solid #ddd;
+//    display: block;
+//    text-align: center;
+//    margin: 0 auto 10px;
+//    background-color: white
+//}
+//
+//.progressBar li:after {
+//    content: "";
+//    position: absolute;
+//    width: 100%;
+//    height: 2px;
+//    background-color: #ddd;
+//    top: 15px;
+//    left: -50%;
+//    z-index: -1;
+//}
+//
+//.progressBar li:first-child:after {
+//    content: none;
+//}
+//
+//.progressBar li.active {
+//    color: #34bc9b;
+//}
+//
+//.progressBar li.active:before {
+//    border-color: #34bc9b;
+//    background-color: #34bc9b
+//}
+//
+//.progressBar li.active + li:after {
+//    background-color: #34bc9b;
+//}

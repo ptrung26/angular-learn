@@ -1,0 +1,60 @@
+<div>
+
+  <h3 class="modal-header">
+    <span>{{'LoginAttempts' | localize}}</span>
+  </h3>
+
+  <nz-card *ngFor="let item of userLoginAttempts" style="margin-top: 15px;">
+    <div nz-row [nzGutter]="8">
+      <div nz-col [nzSpan]="3">
+        <label>{{'LoginState' | localize}}</label>
+      </div>
+
+      <div nz-col [nzSpan]="10">
+        <nz-badge *ngIf="item.result == 'Success'" [nzStatus]="'success'" [nzText]="l('Success')"></nz-badge>
+        <nz-badge *ngIf="item.result != 'Success'" [nzStatus]="'error'" [nzText]="l('Failed')"></nz-badge>
+      </div>
+    </div>
+    <div nz-row [nzGutter]="8">
+      <div nz-col [nzSpan]="3">
+        <label>{{'IpAddress' | localize}}:</label>
+      </div>
+
+      <div nz-col [nzSpan]="10">
+        {{item.clientIpAddress}}
+      </div>
+    </div>
+
+    <div nz-row [nzGutter]="8">
+      <div nz-col [nzSpan]="3">
+        <label>{{'Client' | localize}}:</label>
+      </div>
+
+      <div nz-col [nzSpan]="10">
+        {{item.clientName}}
+      </div>
+    </div>
+
+    <div nz-row [nzGutter]="8">
+      <div nz-col [nzSpan]="3">
+        <label>{{'Browser' | localize}}:</label>
+      </div>
+
+      <div nz-col [nzSpan]="10">
+        {{item.browserInfo}}
+      </div>
+    </div>
+
+    <div nz-row [nzGutter]="8">
+      <div nz-col [nzSpan]="3">
+        <label>{{'Time' | localize}}:</label>
+      </div>
+
+      <div nz-col [nzSpan]="10">
+        {{getLoginAttemptTime(item)}}
+      </div>
+    </div>
+  </nz-card>
+
+
+</div>

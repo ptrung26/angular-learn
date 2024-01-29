@@ -1,0 +1,38 @@
+<form nz-form [formGroup]="rfDataModal" nzLayout="horizontal">
+    <nz-form-item>
+        <nz-form-label nzFor="nhomThuoc" [nzSm]="8" nzRequired>Nhóm thuốc</nz-form-label>
+        <nz-form-control [nzSm]="16" nzErrorTip="Giá trị bắt buộc!">
+            <ora-select dirNhomThuoc formControlName="nhomThuoc"></ora-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="tenThuoc" [nzSm]="8" nzRequired>Tên thuốc</nz-form-label>
+        <nz-form-control [nzSm]="16" nzErrorTip="Giá trị bắt buộc!">
+            <input nz-input formControlName="tenThuoc"/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzGutter="6">
+        <nz-form-label nzFor="donViTinh" [nzSm]="8">Đơn vị tính</nz-form-label>
+        <nz-form-control [nzSm]="16">
+            <input nz-input formControlName="donViTinh">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzGutter="6">
+        <nz-form-label nzFor="quyCachDongGoi" [nzSm]="8">Quy cách đóng gói</nz-form-label>
+        <nz-form-control [nzSm]="16">
+            <input nz-input formControlName="quyCachDongGoi">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzGutter="6">
+        <nz-form-label nzFor="hamLuong" [nzSm]="8">Hàm lượng</nz-form-label>
+        <nz-form-control [nzSm]="16">
+            <input nz-input formControlName="hamLuong">
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<div *nzModalFooter>
+    <button type="button" nz-button nzType="default" (click)="close()">Đóng</button>
+    <button type="button" [nzLoading]="saving" nz-button nzType="primary" (click)="save()"><i nz-icon
+                                                                                              nzType="save"></i>Lưu
+    </button>
+</div>

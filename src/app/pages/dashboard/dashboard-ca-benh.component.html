@@ -1,0 +1,98 @@
+<ora-page-header title='Dashboard' [action]='actionHeader'>
+    <ng-template #actionHeader>
+
+    </ng-template>
+</ora-page-header>
+<ora-layout-filter (onSearch)='refresh()'>
+    <form nz-form [formGroup]='rfFormGroup' nzLayout='vertical' (ngSubmit)='refresh()'>
+        <nz-row nzGutter='8'>
+            <nz-col nzLg='4' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-control>
+                        <tinh-combo (onItemSelected)="changeTinh($event);" formControlName='maTinh'
+                                    placeHolder='Chọn tỉnh/thành phố'
+                                    (ngModelChange)="refresh()"
+                                    [disabled]='appSession.user.level === userLevel.BENH_VIEN || appSession.user.level === userLevel.SO_Y_TE'></tinh-combo>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='4' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-control>
+                        <benh-vien-combo (onItemSelected)="changeCoSo($event);" [maTinh]='rfFormGroup.value.maTinh'
+                                         formControlName='donViCoSoId'
+                                         (ngModelChange)="refresh()"
+                                         [disabled]='appSession.user.level=== userLevel.BENH_VIEN'
+                                         placeHolder='Đơn vị cơ sở'>
+                        </benh-vien-combo>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='4' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-control>
+                        <ora-select dirBaoHiemYTe (ngModelChange)="refresh()" formControlName='baoHiemYTe' placeHolder='Chọn BHYT'></ora-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='4' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-control>
+                        <ora-select dirNhomBenh (ngModelChange)="refresh()" formControlName='nhomBenh' placeHolder='Loại bệnh'
+                                    allowClear='false'></ora-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='4' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-select formControlName='nam' (ngModelChange)="changeNam($event)"
+                                   nzAllowClear="false"
+                                   nzPlaceHolder='Chọn năm báo cáo'>
+                            <nz-option *ngFor='let item of yearBC' [nzValue]='item' [nzLabel]='item'></nz-option>
+                        </nz-select>
+                        <!--                        <nz-range-picker formControlName='rangeDate' [nzPlaceHolder]='placeRangePicker'-->
+                        <!--                                         nzFormat='dd/MM/yyyy'-->
+                        <!--                                         (ngModelChange)='rangeDateChange($event)'></nz-range-picker>-->
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+        <div class='selected'>
+            <strong>Dữ liệu đang được hiển thị:</strong>
+            {{ selectedTinh }}{{selectedCoSo}}{{selectedBHYT}}{{selectedNhomBenh}}{{selectedNgay}}
+        </div>
+    </form>
+</ora-layout-filter>
+<nz-spin [nzSpinning]='isSpinning'>
+    <!--Vai trò bộ y tế và nhóm bệnh viêm gan B-->
+    <vgb-bo-y-te *ngIf='dashboardName==="boyte" && filterNhomBenh === nhomBenh.VIEM_GAN_B'
+                 [maTinh]="rfFormGroup.value.maTinh" [donViCoSoId]="filterDonViCoSoId"
+                 [nhomBenh]="rfFormGroup.value.nhomBenh" [tuNgay]="tuNgay"
+                 [denNgay]="denNgay"></vgb-bo-y-te>
+    <!--Vai trò bộ y tế và nhóm bệnh viêm gan C-->
+    <vgc-bo-y-te *ngIf='dashboardName==="boyte" && filterNhomBenh === nhomBenh.VIEM_GAN_C'
+                 [maTinh]="rfFormGroup.value.maTinh" [donViCoSoId]="filterDonViCoSoId"
+                 [nhomBenh]="rfFormGroup.value.nhomBenh" [tuNgay]="tuNgay"
+                 [denNgay]="denNgay"></vgc-bo-y-te>
+    <!--Vai trò sở y tế và nhóm bệnh viêm gan B-->
+    <vgb-so-y-te *ngIf='dashboardName==="soyte" && filterNhomBenh === nhomBenh.VIEM_GAN_B'
+                 [maTinh]="rfFormGroup.value.maTinh" [donViCoSoId]="filterDonViCoSoId"
+                 [nhomBenh]="rfFormGroup.value.nhomBenh" [tuNgay]="tuNgay"
+                 [denNgay]="denNgay"></vgb-so-y-te>
+    <!--Vai trò sở y tế và nhóm bệnh viêm gan C-->
+    <vgc-so-y-te *ngIf='dashboardName==="soyte" && filterNhomBenh === nhomBenh.VIEM_GAN_C'
+                 [maTinh]="rfFormGroup.value.maTinh" [donViCoSoId]="filterDonViCoSoId"
+                 [nhomBenh]="rfFormGroup.value.nhomBenh" [tuNgay]="tuNgay"
+                 [denNgay]="denNgay"></vgc-so-y-te>
+    <!--Vai trò cơ sở y tế và nhóm bệnh viêm gan B-->
+    <vgb-co-so-y-te *ngIf='dashboardName==="cosoyte" && filterNhomBenh === nhomBenh.VIEM_GAN_B'
+                    [maTinh]="rfFormGroup.value.maTinh" [donViCoSoId]="filterDonViCoSoId"
+                    [nhomBenh]="rfFormGroup.value.nhomBenh" [tuNgay]="tuNgay"
+                    [denNgay]="denNgay"></vgb-co-so-y-te>
+    <!--Vai trò cơ sở y tế và nhóm bệnh viêm gan C-->
+    <vgc-co-so-y-te *ngIf='dashboardName==="cosoyte" && filterNhomBenh === nhomBenh.VIEM_GAN_C'
+                    [maTinh]="rfFormGroup.value.maTinh" [donViCoSoId]="filterDonViCoSoId"
+                    [nhomBenh]="rfFormGroup.value.nhomBenh" [tuNgay]="tuNgay"
+                    [denNgay]="denNgay"></vgc-co-so-y-te>
+</nz-spin>

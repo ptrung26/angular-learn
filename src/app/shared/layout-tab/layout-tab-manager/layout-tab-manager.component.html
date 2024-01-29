@@ -1,0 +1,43 @@
+<div class="card-container card-tab-root">
+    <nz-tabset class="tab-root" [nzSelectedIndex]="curentTab" (nzSelectedIndexChange)="changeTab($event)" nzType="card"
+               nzHideAdd>
+
+        <nz-tab *ngFor="let tab of $listTab|async; let i = index" [nzTitle]="titleTemplate">
+            <ng-template #titleTemplate>
+                <!--                (contextmenu)="contextMenu($event, menu)"-->
+                <div class="title-tab">
+                    <i [className]="tab.iconClass"></i>
+                    {{ tab.title |localize}}
+                    <span style="color: black" class="margin-left-5" *ngIf="i>0" (click)="closeTab(i)">x</span>
+                </div>
+                <nz-dropdown-menu #menu="nzDropdownMenu">
+                    <ul nz-menu>
+                        <li *ngIf="i>0" nz-menu-item (click)="closeTab(i)">Đóng chức năng này</li>
+                        <li nz-menu-item (click)="closeOtherTab(i)">Đóng chức năng khác</li>
+                        <li nz-menu-item (click)="closeTabRight(i)">Đóng chức năng bên phải</li>
+                        <li nz-menu-item (click)="closeAllTab()">Đóng tất cả</li>
+                    </ul>
+                </nz-dropdown-menu>
+                <!--            <i nz-icon nzType="close" nzTheme="outline" (click)="closeTab(index)"></i>-->
+                <!--            <i nz-icon nzType="close" class="ant-tabs-close-x" (click)="closeTab(index)"></i>-->
+            </ng-template>
+            <div class="tab-root-content">
+                <ng-container [ngSwitch]="tab.viewType">
+                    <ng-container *ngSwitchCase="'template'">
+                        <ng-container *ngTemplateOutlet="tab.viewRef"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'html'">
+                        <div [innerHTML]="tab.viewRef"></div>
+                    </ng-container>
+                    <layout-tab-content
+                        *ngSwitchDefault
+                        [component]="{
+                key: tab.key,
+                dataRef: tab.dataRef,
+                dataObsRef: tab.dataObsRef
+                }"></layout-tab-content>
+                </ng-container>
+            </div>
+        </nz-tab>
+    </nz-tabset>
+</div>

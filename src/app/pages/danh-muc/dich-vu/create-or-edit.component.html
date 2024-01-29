@@ -1,0 +1,32 @@
+<form nz-form [formGroup]="rfDataModal" nzLayout="horizontal">
+    <nz-form-item>
+        <nz-form-label nzFor="nhomDichVu" [nzSm]="6" nzRequired>Nhóm dịch vụ</nz-form-label>
+        <nz-form-control [nzSm]="18" nzErrorTip="Giá trị bắt buộc!">
+            <ora-select dirNhomDichVu formControlName="nhomDichVu"></ora-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="tenDichVu" [nzSm]="6" nzRequired>Tên dịch vụ</nz-form-label>
+        <nz-form-control [nzSm]="18" nzErrorTip="Giá trị bắt buộc!">
+            <input nz-input formControlName="tenDichVu"/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzGutter="6">
+        <nz-form-label nzFor="maDichVu" [nzSm]="6">Mã dịch vụ</nz-form-label>
+        <nz-form-control [nzSm]="18">
+            <textarea nz-input formControlName="maDichVu"></textarea>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzGutter="6">
+        <nz-form-label nzFor="maDichVuBHYT" [nzSm]="6">Mã dịch vụ BHYT</nz-form-label>
+        <nz-form-control [nzSm]="18">
+            <textarea nz-input formControlName="maDichVuBHYT"></textarea>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<div *nzModalFooter>
+    <button type="button" nz-button nzType="default" (click)="close()">Đóng</button>
+    <button type="button" [nzLoading]="saving" nz-button nzType="primary" (click)="save()"><i nz-icon
+                                                                                              nzType="save"></i>Lưu
+    </button>
+</div>

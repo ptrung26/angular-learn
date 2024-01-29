@@ -1,0 +1,57 @@
+<nz-table nzBordered="true">
+    <thead>
+        <tr>
+            <th width="20px">STT</th>
+            <th width="80px">Xem lỗi</th>
+            <th width="80px">Tình trạng</th>
+            <th width="150px">Tên bệnh nhân</th>
+            <th width="80px">Năm sinh</th>
+            <th width="100">Số CMND</th>
+            <th width="150px">Tỉnh</th>
+            <th width="150px">Huyện</th>
+            <th width="150px">Xã</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let dataItem of dataImport;index as i">
+            <td>{{i + 1}}</td>
+            <td>
+                <!-- <a (click)="delete(dataItem)" style="margin-right: 10px;">
+                    <span class="kt-font-danger">
+                        <i nz-icon nzType="delete" nzTheme="outline"></i>
+                    </span>
+                </a> -->
+                <a (click)="viewError(dataItem)" *ngIf="dataItem.listError.length>0">
+                    <span class="kt-font-success">
+                        <i nz-icon nzType="eye" nzTheme="outline"></i>
+                    </span>
+                </a>
+            </td>
+            <th width="80px">
+                {{dataItem.trangThaiImport == 1 ? 'Hợp lệ' : 'Không hợp lệ'}}
+            </th>
+            <td>
+                {{dataItem.hoTen}}
+            </td>
+            <td>
+                {{dataItem.namSinh}}
+            </td>
+            <td>
+                {{dataItem.soCMND}}
+            </td>
+            <td>
+                {{dataItem.tenTinh}}
+            </td>
+            <td>
+                {{dataItem.tenHuyen}}
+            </td>
+            <td>
+                {{dataItem.tenXa}}
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+<div *nzModalFooter>
+    <button type="button" nz-button nzType="default" (click)="close()">Đóng</button>
+    <button type="button" nz-button nzType="primary" (click)="save()">Nhập dữ liệu hợp lệ</button>
+</div>

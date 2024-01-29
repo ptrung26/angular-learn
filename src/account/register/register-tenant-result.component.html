@@ -1,0 +1,30 @@
+﻿<nz-card class="ant-card__body-nopadding py-md">
+    <result type="success" [title]="l('SuccessfullyRegistered')" [extra]="resultExtra" [description]="resultDescription">
+        <ng-template #resultExtra>
+            <div>
+                {{"TenancyName" | localize}}: <span class="font-weight-bold">{{model.tenancyName}}</span>
+            </div>
+            <div>
+                {{"Name" | localize}}: <span class="font-weight-bold">{{model.name}}</span>
+            </div>
+            <div>
+                {{"UserName" | localize}}: <span class="font-weight-bold">{{model.userName}}</span>
+            </div>
+            <div>
+                {{"EmailAddress" | localize}}: <span class="font-weight-bold">{{model.emailAddress}}</span>
+            </div>
+        </ng-template>
+        <ng-template #resultDescription>
+            <div *ngIf="model.isEmailConfirmationRequired">
+                {{"ConfirmationMailSentPleaseClickLinkInTheEmail" | localize:model.emailAddress}}
+            </div>
+            <div *ngIf="!model.isActive">
+                {{"YourAccountIsWaitingToBeActivatedByAdmin" | localize}}
+            </div>
+        </ng-template>
+        <div *ngIf="tenantUrl">
+            {{"TenantRegistrationLoginInfo" | localize}}<br />
+            <a href="{{tenantUrl}}">{{tenantUrl}}</a>
+        </div>
+    </result>
+</nz-card>

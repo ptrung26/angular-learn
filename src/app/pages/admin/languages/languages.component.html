@@ -1,0 +1,163 @@
+<page-header [title]="title">
+    <ng-template #title>
+        {{'Languages' | localize}}
+        <span class="text-sm text-grey-dark">
+            <nz-divider nzType="vertical"></nz-divider>
+            {{'LanguagesHeaderInfo' | localize}}
+        </span>
+    </ng-template>
+</page-header>
+<nz-card [nzBordered]="false">
+    <form nz-form class="search__form">
+        <nz-row nzGutter="8">
+            <nz-col nzSm="24">
+                <nz-form-item>
+                    <nz-form-control>
+                        <nz-input-group nzSearch [nzAddOnAfter]="suffixSearchButton">
+                            <input type="text" nz-input [(ngModel)]="filterText" name="filterText"
+                                placeholder="{{'SearchWithThreeDot' | localize}}">
+                            <ng-template #suffixSearchButton>
+                                <button nz-button nzType="primary" nzSearch (click)="refresh()">
+                                    <i nz-icon nzType="search"></i>
+                                </button>
+                            </ng-template>
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+    </form>
+    <button nz-button [nzType]="'primary'" *ngIf="isGranted('Pages.Administration.Languages.Create')"
+        (click)="createOrEditLanguage()">
+        <i nz-icon nzType="plus"></i>
+        <span>
+            {{"CreateNewLanguage" | localize}}
+        </span>
+    </button>
+    <button nz-button [nzType]="'danger'"
+        *ngIf="isGranted('Pages.Administration.Languages.Delete') && selectedDataItems.length>0"
+        (click)="batchDelete()">
+        <i nz-icon nzType="delete"></i>
+        <span>
+            Delete Selected
+        </span>
+    </button>
+
+    <div class="my-md">
+        <nz-alert [nzType]="'info'" [nzShowIcon]="true" [nzMessage]="message">
+            <ng-template #message>
+                <span>
+                    <strong class="text-primary">{{selectedDataItems.length}}</strong> items selected
+                </span>
+                <a (click)="restCheckStatus(dataList)" class="ml-md" *ngIf="selectedDataItems.length>0">
+                    {{'Clear' | localize}}
+                </a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="refresh()">
+                    {{'Refresh' | localize}}
+                </a>
+            </ng-template>
+        </nz-alert>
+    </div>
+
+    <nz-row class="my-md">
+        <nz-table #ajaxTable [nzData]="dataList" [nzTotal]="totalItems" [nzLoading]="isTableLoading"
+            (nzPageIndexChange)="pageNumberChange()" (nzPageSizeChange)="refresh()" [nzShowSizeChanger]="true"
+            [nzShowQuickJumper]="true" [nzFrontPagination]="false" [nzShowPagination]="false">
+            <thead (nzSortOrderChange)="gridSort($event)">
+                <tr>
+                    <th nzShowCheckbox [(nzChecked)]="allChecked" [nzDisabled]="allCheckboxDisabled"
+                        [nzIndeterminate]="checkboxIndeterminate" (nzCheckedChange)="checkAll($event)"></th>
+                    <th>
+                        {{"Name" | localize}}
+                    </th>
+                    <th>
+                        {{"Code" | localize}}
+                    </th>
+                    <th *ngIf="appSession.tenantId ? true : false">
+                        {{'Default' | localize}} *
+                    </th>
+                    <th class="text-center">
+                        {{"CreationTime" | localize}}
+                    </th>
+                    <th class="text-center">
+                        {{"IsEnabled" | localize}}
+                    </th>
+
+                    <th nzWidth="240px" class="text-center">
+                        {{'Actions' | localize}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of ajaxTable.data">
+                    <td nzShowCheckbox [(nzChecked)]="item.checked" (nzCheckedChange)="refreshCheckStatus(dataList)">
+                    </td>
+                    <td>
+                        <span [ngClass]="{'font-weight-bold' : defaultLanguageName === item.name}">
+                            <i class="anticon {{item.icon}}"></i>
+                            {{item.displayName}}
+                            <span *ngIf="defaultLanguageName === item.name">({{'Default' | localize}})</span>
+                        </span>
+                    </td>
+                    <td>
+                        {{item.name}}
+                    </td>
+                    <td *ngIf="appSession.tenantId ? true : false">
+                        <span class="badge badge-success"
+                            *ngIf="item.tenantId !== appSession.tenantId">{{'Yes' | localize}}</span>
+                        <span class="badge badge-grey"
+                            *ngIf="item.tenantId === appSession.tenantId">{{'No' | localize}}</span>
+                    </td>
+                    <td class="text-center">
+                        {{item.creationTime | luxonFormat:'D'}}
+                    </td>
+                    <td class="text-center">
+                        <span class="badge badge-success" *ngIf="!item.isDisabled">{{'Yes' | localize}}</span>
+                        <span class="badge badge-grey" *ngIf="item.isDisabled">{{'No' | localize}}</span>
+                    </td>
+                    <td class="text-center">
+                        <ng-container
+                            *ngIf="isGranted('Pages.Administration.Languages.Edit') && item.tenantId === appSession.tenantId">
+                            <a (click)="createOrEditLanguage(item.id)">
+                                <i nz-icon nzType="edit"></i>
+                                {{'Edit' | localize}}
+                            </a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                        </ng-container>
+                        <ng-container
+                            *ngIf="isGranted('Pages.Administration.Languages.Delete') && item.tenantId === appSession.tenantId">
+                            <a nz-popconfirm [nzPopconfirmTitle]="l('LanguageDeleteWarningMessage', item.displayName)"
+                                (nzOnConfirm)="delete(item)" [nzOkText]="l('Ok')" [nzCancelText]="l('Cancel')">
+                                <i nz-icon nzType="delete"></i>
+                                {{'Delete' | localize}}
+                            </a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                        </ng-container>
+
+                        <ng-container
+                            *ngIf="isGrantedAny('Pages.Administration.Languages.ChangeTexts', 'Pages.Administration.Languages.Edit')">
+                            <a nz-dropdown nzPlacement="bottomRight" [nzDropdownMenu]="menuTpl">
+                                {{'Actions' | localize}}
+                                <i nz-icon nzType="down"></i>
+                            </a>
+                            <nz-dropdown-menu #menuTpl="nzDropdownMenu">
+                                <ul nz-menu>
+                                    <li nz-menu-item (click)="changeTexts(item)"
+                                        *ngIf="isGranted('Pages.Administration.Languages.ChangeTexts')">
+                                        {{'ChangeTexts' | localize}}
+                                    </li>
+                                    <li nz-menu-item (click)="setAsDefaultLanguage(item)"
+                                        *ngIf="isGranted('Pages.Administration.Languages.Edit')">
+                                        {{'SetAsDefaultLanguage' | localize}}
+                                    </li>
+                                </ul>
+                            </nz-dropdown-menu>
+                        </ng-container>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-row>
+
+</nz-card>

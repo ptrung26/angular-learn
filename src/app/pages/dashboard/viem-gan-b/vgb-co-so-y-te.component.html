@@ -1,0 +1,186 @@
+<nz-tabset nzType='card' class='parentTab' [(nzSelectedIndex)]="indexTab">
+    <nz-tab nzTitle='Xét nghiệm huyết học' nzForceRender='true'>
+        <nz-row nzGutter='30'>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <h3>Số người xét nghiệm HBsAg: <strong>{{ this.tongSangLoc }}</strong>
+                    </h3>
+                    <div class='chart' id='vgb-csyt-screening-test' style='width: 100%; height: 450px;'></div>
+                    <div class='lstlabel text-center'>
+                        <ul>
+                            <li><span style='background: #5491CD'></span>Nam: {{vgbcsytscreeningtestlabel[0]}}({{vgbcsytscreeningtestlabel[1]}}%)
+                            </li>
+                            <li><span style='background: #FFC2BC'></span>Nữ: {{vgbcsytscreeningtestlabel[2]}}({{vgbcsytscreeningtestlabel[3]}}%)
+                            </li>
+                        </ul>
+                        <p>Số người xét nghiệm HBsAg theo giới tính và nhóm tuổi</p>
+                    </div>
+                </div>
+            </nz-col>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <h3>Tỷ lệ người có kết quả HBsAg dương tính (theo tuổi, giới):
+                        <strong>{{ sangLocDuongTinh }} ({{sangLocDuongTinhPercent.toFixed(1)}}%)</strong>
+                    </h3>
+                    <div class='chart' id='vgb-csyt-screening-test-positive'
+                         style='width: 100%; height: 450px;'></div>
+                    <div class='lstlabel text-center'>
+                        <ul>
+                            <li><span style='background: #5491CD'></span>Nam: {{vgbcsytscreeningtestpositivelable[0]}}({{vgbcsytscreeningtestpositivelable[1]}}%)
+                            </li>
+                            <li><span style='background: #FFC2BC'></span>Nữ: {{vgbcsytscreeningtestpositivelable[2]}}({{vgbcsytscreeningtestpositivelable[3]}}%)
+                            </li>
+                        </ul>
+                        <p>Số người xét nghiệm HBsAg dương tính theo giới tính và nhóm tuổi</p>
+                    </div>
+                </div>
+            </nz-col>
+        </nz-row>
+        <div class='bg-white'>
+            <h3>Kết quả xét nghiệm HBsAg theo tháng</h3>
+            <div class='chart' id='vgb-csyt-chart-month' style='width: 100%; height: 500px;'></div>
+        </div>
+    </nz-tab>
+    <nz-tab nzTitle='Chẩn đoán và Điều trị' nzForceRender='true'>
+        <div class='bg-white'>
+            <div class='header'>Số người bệnh viêm gan B mạn tính:
+                <strong> {{nhiemMan_ChanDoan}}</strong></div>
+            <nz-row nzGutter='30'>
+                <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                    <div class='chart' id='vgb-csyt-chart-sex-infection'
+                         style='width: 100%; height: 360px;'></div>
+                    <div class='lstlabel text-center'>
+                        <p>Số người bệnh viêm gan B mạn theo giới tính</p>
+                    </div>
+                </nz-col>
+                <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                    <div class='chart' id='vgb-csyt-chart-old-infection'
+                         style='width: 100%; height: 360px;'></div>
+                    <p class='text-center'>Số người bệnh viêm gan B mạn theo nhóm tuổi</p>
+                </nz-col>
+            </nz-row>
+        </div>
+        <nz-row nzGutter='30'>
+            <nz-col nzLg="12" nzMd="12" nzSm="24" nzXs="24">
+                <div class='bg-white'>
+                    <div class='header'>Chẩn đoán_Số người bệnh viêm gan B xét nghiệm tải lượng HBV DNA và nhận
+                        kết quả: <strong>{{xetNghiem_ChanDoan}}</strong></div>
+                    <div class='chart' id='vgb-csyt-chart-test-hbv-dna'
+                         style='width: 100%; height: 360px; margin: 100px 0'></div>
+                </div>
+            </nz-col>
+            <nz-col nzLg="12" nzMd="12" nzSm="24" nzXs="24">
+                <div class="bg-white">
+                    <div class="header">
+                        Chẩn đoán_Phân bố giá trị tải lượng HBV DNA
+                    </div>
+                    <div class='chart' id='vgb-csyt-chart-value-hbv-dna'
+                         style='width: 100%; height: 470px;'></div>
+                    <p class="text-center">Số người bệnh có tải lượng HBV DNA trên ngưỡng phát hiện</p>
+                    <nz-row class="text-center">
+                        <nz-col nzLg="8">
+                            Mean: <b>{{this.result?.giaTriTrungBinh}}</b>
+                        </nz-col>
+                        <nz-col nzLg="8">
+                            SD: <b>{{this.result?.doLechChuan.toFixed(2)}}</b>
+                        </nz-col>
+                        <nz-col nzLg="8">
+                            Trung Vị: <b>{{this.result?.trungVi.toFixed(2)}}</b>
+                        </nz-col>
+                        <nz-col nzLg="8">
+                            Max: <b>{{this.result?.max.toFixed(2)}}</b>
+                        </nz-col>
+                        <nz-col nzLg="8">
+                            Min: <b>{{this.result?.min.toFixed(2)}}</b>
+                        </nz-col>
+                    </nz-row>
+                </div>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='30'>
+            <!--                    <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>-->
+            <!--                        <div class='bg-white'>-->
+            <!--                            <div class='header'>Điều trị_Tổng số người bệnh mới điều trị viêm gan B:-->
+            <!--                                <strong>{{VGB_SoMoiDieuTri}}</strong></div>-->
+            <!--                            <div class='chart' id='vgb-csyt-chart-sex-starttreatment'-->
+            <!--                                 style='width: 100%; height: 230px;'></div>-->
+            <!--                            <div class='lstlabel text-center'>-->
+            <!--                                <p>Số người bệnh mới điều trị viêm gan B theo giới tính</p>-->
+            <!--                            </div>-->
+            <!--                            <div class='chart' id='vgb-csyt-chart-old-starttreatment'-->
+            <!--                                 style='width: 100%; height: 300px;'></div>-->
+            <!--                            <div class='lstlabel text-center'>-->
+            <!--                                <p>Số người bệnh mới điều trị viêm gan B theo nhóm tuổi</p>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </nz-col>-->
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <div class='header'>Tỷ lệ người bệnh VGB đang điều trị:
+                        <strong>{{VGB_SoDangDieuTri}} <span
+                            *ngIf="VGB_SoMoiDieuTri>0">({{(VGB_SoDangDieuTri * 100 / VGB_SoMoiDieuTri).toFixed(1)}}
+                            %)</span></strong></div>
+                    <div class='chart' id='vgb-csyt-chart-sex-beingtreatment'
+                         style='width: 100%; height: 230px;'></div>
+                    <div class='lstlabel text-center'>
+                        <p>Số người bệnh đang điều trị viêm gan B theo giới tính</p>
+                    </div>
+                    <div class='chart' id='vgb-csyt-chart-old-beingtreatment'
+                         style='width: 100%; height: 300px;'></div>
+                    <div class='lstlabel text-center'>
+                        <p>Số người bệnh đang điều trị viêm gan B theo nhóm tuổi</p>
+                    </div>
+                </div>
+            </nz-col>
+            <nz-col nzLg="12" nzMd="12" nzSm="24">
+                <div class='bg-white'>
+                    <div class='header'>Điều trị_Tỷ lệ người bệnh điều trị VGB đạt ức chế tải lượng virus
+                        <strong>({{tyleucchevirus.toFixed(2)}}%)</strong>
+                    </div>
+                    <div class='chart' id='vgb-csyt-chart-treatment-hbv-dna'
+                         style='width: 100%; height: 360px; margin: 135px 0'></div>
+                </div>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='30'>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white' style='min-height: 525px'>
+                    <div class='header'>Mô hình đa bậc xét nghiệm
+                        và
+                        điều trị viêm gan B
+                    </div>
+                    <div class='chart' id='vgb-csyt-chart-multi-level'
+                         style='width: 100%; height: 530px;'></div>
+                </div>
+            </nz-col>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <div class='header'>Nguồn chi trả điều trị viêm gan B
+                    </div>
+                    <div class='chart' id='vgb-csyt-chart-treatment-insurance'
+                         style='height: 360px; margin: 100px 0'></div>
+                </div>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='30'>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='total bg-blue'>
+            <span class='icon'>
+            <img src='../../../assets/icon-1.png' height='32' width='32'/></span>
+                    <p>Tỷ lệ người bệnh đồng nhiễm viêm gan B/Viêm gan C: <strong> {{dongNhiemBC}}</strong></p>
+                    <p>Tỷ lệ người bệnh đồng nhiễm VGB/HIV: <strong> {{dongNhiemBHIV}}</strong></p>
+                    <p>Tỷ lệ người bệnh đồng nhiễm VGB/Viêm gan D: <strong> {{dongNhiemBD}}
+                    </strong></p>
+                </div>
+            </nz-col>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='total bg-red'>
+            <span class='icon'>
+            <img src='../../../assets/icon-2.png' height='32' width='32'/></span>
+                    <span>Số người bệnh tử vong liên quan tới viêm gan B:</span>
+                    <strong> {{tuVong}}</strong>
+                </div>
+            </nz-col>
+        </nz-row>
+    </nz-tab>
+</nz-tabset>

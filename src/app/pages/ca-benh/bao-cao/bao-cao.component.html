@@ -1,0 +1,78 @@
+<ora-page-header title="Báo cáo ca bệnh" [action]="actionHeader">
+    <ng-template #actionHeader>
+
+    </ng-template>
+</ora-page-header>
+<nz-row class="root" nzJustify="center" nzGutter="16" nzAlign="middle">
+    <nz-col nzFlex="64px" class="col-filter">
+        <i nz-icon nzType="filter" nzTheme="outline"></i>
+    </nz-col>
+    <div nz-col nzFlex="auto" class="col-content">
+        <form nz-form [formGroup]="rfFormGroup" nzLayout="vertical">
+            <nz-row nzGutter="8">
+                <nz-col nzLg="6" nzSm="12" *ngIf="appSession.user.level==userLevel.SA || appSession.user.level==userLevel.BO_Y_TE || appSession.user.level==userLevel.QUAN_LY_VUNG">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Giá trị bắt buộc!">
+                            <tinh-combo formControlName="maTinh" placeHolder="Chọn tỉnh/thành phố"></tinh-combo>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg="6" nzSm="12" *ngIf="appSession.user.level !== userLevel.BENH_VIEN">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Giá trị bắt buộc!">
+                            <don-vi-co-so-combo [maTinh]="rfFormGroup.value.maTinh" formControlName="donViCoSoId"
+                                placeHolder="Đơn vị cơ sở" >
+                            </don-vi-co-so-combo>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg="4" nzSm="12">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Giá trị bắt buộc!">
+                            <nz-select class="pt-select" formControlName="kyBaoCao" nzAllowClear
+                                nzPlaceHolder="Chọn kỳ báo cáo">
+                                <nz-option *ngFor='let item of kyBC' [nzValue]='item.value' [nzLabel]='item.label'></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg="4" nzSm="12" *ngIf="rfFormGroup.value.kyBaoCao > 0">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Giá trị bắt buộc!">
+                            <nz-select class="pt-select" formControlName="namBaoCao" nzAllowClear
+                                nzPlaceHolder="Chọn năm báo cáo">
+                                <nz-option *ngFor='let item of yearBC' [nzValue]='item' [nzLabel]='item'></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg="4" nzSm="12" *ngIf="rfFormGroup.value.kyBaoCao == 2">
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-select class="pt-select" formControlName="thangBaoCao" nzAllowClear
+                                nzPlaceHolder="Chọn tháng báo cáo">
+                                <nz-option nzValue="1" nzLabel="Tháng 1"></nz-option>
+                                <nz-option nzValue="2" nzLabel="Tháng 2"></nz-option>
+                                <nz-option nzValue="3" nzLabel="Tháng 3"></nz-option>
+                                <nz-option nzValue="4" nzLabel="Tháng 4"></nz-option>
+                                <nz-option nzValue="5" nzLabel="Tháng 5"></nz-option>
+                                <nz-option nzValue="6" nzLabel="Tháng 6"></nz-option>
+                                <nz-option nzValue="7" nzLabel="Tháng 7"></nz-option>
+                                <nz-option nzValue="8" nzLabel="Tháng 8"></nz-option>
+                                <nz-option nzValue="9" nzLabel="Tháng 9"></nz-option>
+                                <nz-option nzValue="10" nzLabel="Tháng 10"></nz-option>
+                                <nz-option nzValue="11" nzLabel="Tháng 11"></nz-option>
+                                <nz-option nzValue="12" nzLabel="Tháng 12"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+            </nz-row>
+        </form>
+    </div>
+    <div nz-col nzFlex="116px" class="col-action">
+        <button nz-button class="btn-search" nzType="default" (click)="exportExcelMauBaoCao01()">
+            Xuất Báo cáo
+        </button>
+    </div>
+</nz-row>

@@ -1,0 +1,13 @@
+<div style="text-align:center">
+    <nz-progress
+        class="process-data"
+        [nzWidth]="width"
+        [nzStrokeWidth]="10"
+        [nzPercent]="100" nzType="circle" [nzFormat]="refvalue"
+        [nzStrokeColor]="processColor"></nz-progress>
+    <ng-template #refvalue>
+        <span class="khoi-luong">{{_formatValue}}</span> <br/>
+        <span class="don-vi">g</span>
+    </ng-template>
+    <span class="title-data">{{title}}</span>
+</div>

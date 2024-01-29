@@ -1,0 +1,55 @@
+<nz-card [nzLoading]="loading" [nzTitle]="nzTitleTemplate" [nzExtra]="extraTemplate">
+    <ng-template #nzTitleTemplate>
+        <span>
+            <i nz-icon nzType="share-alt"></i>
+            {{'OrganizationTree' | localize}}
+        </span>
+    </ng-template>
+    <ng-template #extraTemplate>
+        <ng-container *ngIf="isGranted('Pages.Administration.OrganizationUnits.ManageOrganizationTree')">
+            <a (click)="addUnit(null)">
+                <i nz-icon nzType="plus"></i> {{"AddRootUnit" | localize}}
+            </a>
+            <nz-divider nzType="vertical"></nz-divider>
+        </ng-container>
+        <a class="ml-sm">
+            <i nz-icon nzType="reload" nz-tooltip [nzTooltipTitle]="l('Refresh')" (click)="reload()"></i>
+        </a>
+    </ng-template>
+    <nz-spin [nzTip]="l('MovingWithThreeDot')" [nzSpinning]="draging">
+        <nz-tree [nzData]="_treeData" [nzShowExpand]="true" nzExpandAll [nzDraggable]="true"
+            (nzClick)="activeNode($event)" (nzDblClick)="openFolder($event)" (nzOnDragEnter)="dragEnter($event)"
+            (nzOnDrop)="dragSaveData($event)" (nzOnDragEnd)="dragSaveData($event)" [nzTreeTemplate]="nzTreeTemplate">
+        </nz-tree>
+        <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu *ngIf="isGranted('Pages.Administration.OrganizationUnits.ManageOrganizationTree')">
+                <li nz-menu-item (click)="editUnit()">
+                    <i nz-icon nzType="edit"></i>
+                    {{'Edit' | localize}}
+                </li>
+                <li nz-menu-item (click)="addSubUnit()">
+                    <i nz-icon nzType="file-add"></i>
+                    {{'AddSubUnit' | localize}}
+                </li>
+                <li nz-menu-item (click)="deleteUnit()"
+                    *ngIf="isGranted('Pages.Administration.OrganizationUnits.ManageOrganizationTree')">
+                    <i nz-icon nzType="delete"></i>
+                    {{'Delete' | localize}}
+                </li>
+            </ul>
+        </nz-dropdown-menu>
+        <ng-template #nzTreeTemplate let-node>
+            <span class="custom-node" draggable="true" aria-grabbed="true">
+                <span (contextmenu)="createContextMenu($event, menu, node)">
+                    <i nz-icon nzType="folder" *ngIf="!node.isExpanded" (click)="openFolder(node)" nz-tooltip [nzTooltipTitle]="node.origin.code"></i>
+                    <i nz-icon nzType="folder-open" *ngIf="node.isExpanded" (click)="openFolder(node)" nz-tooltip [nzTooltipTitle]="node.origin.code"></i>
+                    <span class="ou-title">{{node.title}}</span>
+                    <small class="member-count" style="font-size: .82em; opacity: .5;">{{node?.origin?.memberCount}} {{'Members' | localize}}, {{node?.origin?.roleCount}} {{'Roles' | localize}}</small>
+                </span>
+            </span>
+        </ng-template>
+    </nz-spin>
+    <div class="text-center" *ngIf="!totalUnitCount">
+        <nz-empty class="ant-empty-normal" [nzNotFoundContent]="l('NoOrganizationUnitDefinedYet')"></nz-empty>
+    </div>
+</nz-card>

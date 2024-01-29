@@ -1,0 +1,118 @@
+<nz-content [hidden]="viewShow!=='list'">
+    <ora-page-header title='Quản lý liên thông dữ liệu' [action]='actionHeader'>
+        <ng-template #actionHeader>
+            <!--            <button *ngIf='appSession.user.level=== userLevel.BENH_VIEN' nz-button nzType='primary'-->
+            <!--                    (click)='showCreateOrEditModal()'><i class='fa fa-plus'></i>Thêm mới-->
+            <!--            </button>-->
+        </ng-template>
+    </ora-page-header>
+    <ora-layout-filter (onSearch)='refresh()'>
+        <form nz-form [formGroup]='rfFormGroup' nzLayout='vertical' (ngSubmit)='refresh()'>
+            <nz-row nzGutter='8'>
+                <nz-col nzLg='4' nzSm='12'>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <nz-select (ngModelChange)='refresh()' class='pt-select' formControlName='nam'
+                                       nzAllowClear="false"
+                                       nzPlaceHolder='Chọn năm báo cáo'>
+                                <nz-option *ngFor='let item of yearBC' [nzValue]='item' [nzLabel]='item'></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg='4' nzSm='12'>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <tinh-combo formControlName='maTinh' placeHolder='Chọn tỉnh/thành phố'
+                                        [disabled]='appSession.user.level === userLevel.BENH_VIEN || appSession.user.level === userLevel.SO_Y_TE'></tinh-combo>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg='4' nzSm='12'>
+                    <nz-form-item>
+                        <nz-form-control>
+                            <benh-vien-combo [maTinh]='rfFormGroup.value.maTinh' formControlName='donViCoSoId'
+                                             [disabled]='appSession.user.level=== userLevel.BENH_VIEN'
+                                             placeHolder='Đơn vị cơ sở'>
+                            </benh-vien-combo>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+            </nz-row>
+        </form>
+    </ora-layout-filter>
+    <nz-table #basicTable [nzData]='dataList' [nzPageSize]='20'>
+        <thead>
+        <tr>
+            <th nzWidth='20px'>STT</th>
+            <th nzWidth='150px'>Thao tác</th>
+            <th nzWidth='120px'>Năm</th>
+            <th nzWidth='120px'>Tháng</th>
+            <th nzWidth='200px'>Trạng thái</th>
+            <th nzWidth='120px'>Hợp lệ</th>
+            <th nzWidth='120px'>Không hợp lệ</th>
+            <th nzWidth='120px'>Lỗi cấu trúc</th>
+            <th nzShowSort [nzSortFn]='true' nzColumnKey='tenCoSo' nzWidth='250px'
+                *ngIf='appSession.user.level !== userLevel.BENH_VIEN'>Tên cơ sở
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor='let dataItem of basicTable.data;index as i'>
+            <td>{{i + 1}}</td>
+            <td>
+                <a (click)='showCreateOrEditModal(dataItem)' style='margin-right: 10px;'>
+                        <span class='kt-font-warning'>
+                            <i nz-icon nzType='upload' nzTheme='outline'></i> Upload
+                        </span>
+                </a>
+                <a (click)='downloadFileZip(dataItem)' style='margin-right: 10px;'
+                   *ngIf='dataItem.trangThai!== trangThaiDuLieuXML.CHUA_UPLOAD'>
+                        <span class='kt-font-success'>
+                            <i nz-icon nzType='download' nzTheme='outline'></i> Download
+                        </span>
+                </a>
+                <a (click)='reSyncData(dataItem)'
+                   *ngIf='dataItem.trangThai=== trangThaiDuLieuXML.LOI_MAP'>
+                        <span class='kt-font-success'>
+                            <span nz-icon nzType="reload" nzTheme="outline"></span>
+                        </span>
+                </a>
+            </td>
+            <td>
+                {{dataItem.nam}}
+            </td>
+            <td>
+                Tháng {{dataItem.thang}}
+            </td>
+            <td>
+                <nz-tag *ngIf='dataItem.trangThai=== trangThaiDuLieuXML.LOI_MAP'
+                        [nzColor]="'red'">{{dataItem.strTrangThai}}</nz-tag>
+                <nz-tag *ngIf='dataItem.trangThai=== trangThaiDuLieuXML.CHUA_UPLOAD'
+                        [nzColor]="'red'">{{dataItem.strTrangThai}}</nz-tag>
+                <nz-tag *ngIf='dataItem.trangThai=== trangThaiDuLieuXML.DA_UPLOAD'
+                        [nzColor]="'green'">{{dataItem.strTrangThai}}</nz-tag>
+                <nz-tag *ngIf='dataItem.trangThai=== trangThaiDuLieuXML.DA_MAP'
+                        [nzColor]="'green'">{{dataItem.strTrangThai}}</nz-tag>
+            </td>
+            <td>
+                {{dataItem.soHopLe}}
+            </td>
+            <td>
+                {{dataItem.soKhongHopLe}}
+            </td>
+            <td>
+                {{dataItem.soLoiCauTruc}}
+            </td>
+            <td *ngIf='appSession.user.level !== userLevel.BENH_VIEN'>
+                {{dataItem.tenCoSo}}
+            </td>
+        </tr>
+        </tbody>
+    </nz-table>
+</nz-content>
+<create-or-update-du-lieu-xml *ngIf="viewShow==='viewCreateOrUpdate'" [duLieuXmlId]='dataItem.id' [nam]='dataItem.nam'
+                              [thang]='dataItem.thang'
+                              [isView]='isView'
+                              (backListEvent)='onBackToList($event)'>
+</create-or-update-du-lieu-xml>

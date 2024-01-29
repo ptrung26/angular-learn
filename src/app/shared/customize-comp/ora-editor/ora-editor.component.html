@@ -1,0 +1,2 @@
+<angular-editor [hidden]="mode==='show'" #refEditor [(ngModel)]="_value" [config]="config" (ngModelChange)="onChangeValue($event)"></angular-editor>
+<p style="overflow-wrap: anywhere;margin-left: 36px; margin-right: 36px;" *ngIf="mode==='show'" [innerHTML]="_value| safe:'html'"></p>

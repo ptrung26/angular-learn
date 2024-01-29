@@ -1,0 +1,88 @@
+$bgActive: #0CBA70;
+$bgNonActive: #ECEDF3;
+.root {
+    background: $bgNonActive;
+    border-radius: 43px;
+    position: relative;
+    width: 60px;
+    height: 122px;
+    cursor: pointer;
+    animation-name: active-to-non-active;
+    animation-duration: 0.3s;
+
+    .icon {
+        position: absolute;
+        border-radius: 100%;
+        background: white;
+        left: 10%;
+        right: 10%;
+        top: 4.92%;
+        bottom: 55.74%;
+        width: 48px;
+        height: 48px;
+
+        img {
+            width: 48px;
+            height: 48px;
+            border-radius: 100%;
+        }
+    }
+
+    .title {
+        font-size: 12px;
+        position: absolute;
+        top: 57.38%;
+        text-align: center;
+        bottom: 27.87%;
+        width: 100%;
+        padding: 0 5px;
+        color: #445661;
+
+        .content-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+    }
+}
+
+.root.active {
+    animation-name: non-active-active;
+    background: $bgActive;
+
+    .title {
+        color: #FFFFFF;
+
+    }
+}
+
+@keyframes active-to-non-active {
+    from {
+        background-color: $bgActive;
+    }
+    to {
+        background-color: $bgNonActive;
+    }
+}
+
+@keyframes non-active-active {
+    from {
+        background-color: $bgNonActive;
+    }
+    to {
+        background-color: $bgActive;
+    }
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome, Edge, Opera and Firefox */
+}

@@ -1,0 +1,16 @@
+<form nz-form #editTenantFeaturesForm="ngForm" (ngSubmit)="save()">
+    <div class="modal-header">
+        <div class="modal-title">
+            {{"Features" | localize}} - {{tenantName}}
+        </div>
+    </div>
+    <feature-tree #featureTree></feature-tree>
+    <div class="modal-footer">
+        <button nz-button type="button" [disabled]="saving" [nzLoading]="saving" (click)="resetFeatures()" nz-tooltip
+            [nzTooltipTitle]="l('ResetFeaturesTooltip')">{{"ResetSpecialFeatures" | localize}}</button>
+        <button nz-button type="button" [disabled]="saving || resettingFeatures" (click)="close()">{{"Cancel" | localize}}</button>
+        <button nz-button [nzType]="'primary'" type="submit" [disabled]="resettingFeatures">
+            <i nz-icon nzType="save"></i> {{"Save" | localize}}
+        </button>
+    </div>
+</form>

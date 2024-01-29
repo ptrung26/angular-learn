@@ -1,0 +1,98 @@
+.alain-default__aside::after {
+    border-right: none;
+    content: none !important;
+}
+.sidebar-nav__item-link {
+    color: #fff;
+    padding: 12px 10px 11px 10px;
+    font-size: 15px;
+    white-space: normal;
+    overflow: inherit;
+    position: relative;
+    z-index: 10;
+    &:hover {
+        color: #fff;
+    }
+}
+.sidebar-nav__floating {
+    background: #193550 !important;
+}
+.sidebar-nav__selected {
+    background: #fff;
+    border: none;
+    position: relative;
+    &::before {
+        content: '';
+        position: absolute;
+        top: -36px;
+        z-index: 8;
+        right: 0;
+        width: 36px;
+        height: 36px;
+        background-color: #fff;
+    }
+    &::after {
+        content: '';
+        position: absolute;
+        top: -36px;
+        z-index: 9;
+        right: 0;
+        width: 36px;
+        height: 36px;
+        background: #193550;
+        border-radius: 0 0 24px 0;
+    }
+    > a {
+        color: #0cba70;
+        position: relative;
+        &:before {
+            content: '';
+            position: absolute;
+            bottom: -36px;
+            z-index: 8;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background-color: #fff;
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            bottom: -36px;
+            z-index: 9;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background: #193550;
+            border-radius: 0 24px 0px 0;
+        }
+        &:hover {color:#193550 ;}
+    }
+    ul li {
+        background: #193550;
+    }
+    .sidebar-nav__selected {
+        background: #193550;
+        &:before,
+        &:after {
+            content: none;
+        }
+        a:before,
+        a:after {
+            content: none;
+        }
+        .sidebar-nav__item-link {color: #fff;}
+    }
+}
+.sidebar-nav__sub-arrow {
+    right: 6px;
+    top: 26px;
+    color: #fff;
+    &::before,
+    &::after {
+        background-image: none;
+    }
+}
+.sidebar-nav__depth1 .sidebar-nav__item-link {
+    padding-left: 20px;
+}

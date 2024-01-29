@@ -1,0 +1,73 @@
+<form nz-form #loginForm="ngForm" (ngSubmit)="login()" method="post" role="form">
+    <!-- <nz-tabset [nzAnimated]="false" class="tabs">
+        <nz-tab nzTitle="Đăng nhập">
+
+        </nz-tab>
+    </nz-tabset> -->
+    <!-- <h3>Đăng nhập</h3> -->
+    <!-- <div nz-row>
+        <div nz-col nzSpan="12" style="padding-right: 10px;">
+            <nz-form-item>
+            <button nz-button type="submit" nzType="default" nzSize="large" nzBlock>
+                <img alt="" src="./assets/common/images/google.png" />
+                Google</button>
+            </nz-form-item>
+        </div>
+        <div nz-col nzSpan="12" style="padding-left: 10px;">
+            <nz-form-item>
+            <button nz-button type="submit" nzType="default" nzSize="large" nzBlock> <img alt="" src="./assets/common/images/facebook.png" />Facebook</button>
+            </nz-form-item>
+        </div>
+    </div>
+    <div class='other-text'><span>Hoặc đăng nhập</span></div> -->
+    <nz-form-item>
+        <nz-form-control>
+            <nz-form-label [nzSpan]="24">{{'UserName' | localize}}</nz-form-label>
+            <nz-input-group nzPrefixIcon="user">
+                <input nz-input name="userNameOrEmailAddress" #userNameOrEmailAddressInput="ngModel"
+                    [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress" placeholder=""
+                    [nzSize]="'large'" required maxlength="255">
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label [nzSpan]="24">{{'Password' | localize}}</nz-form-label>
+        <nz-form-control>
+            <nz-input-group nzPrefixIcon="lock">
+                <input nz-input name="password" #passwordInput="ngModel" [(ngModel)]="loginService.authenticateModel.password"
+                    placeholder="" type="password" [nzSize]="'large'" required maxlength="32">
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-col [nzSpan]="12">
+            <label nz-checkbox [(ngModel)]="loginService.rememberMe" name="rememberMe" id="rememberme">
+                <span>{{"RememberMe" | localize}}</span>
+            </label>
+        </nz-col>
+        <nz-col [nzSpan]="12" class="text-right">
+            <a routerLink="/account/forgot-password" class="forgot forget-password">{{"ForgotPassword" | localize}}</a>
+        </nz-col>
+    </nz-form-item>
+    <nz-form-item>
+        <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="submitting" nzBlock>{{"LogIn" | localize}}</button>
+    </nz-form-item>
+</form>
+<div class="other" *ngIf="(multiTenancySideIsTeanant || !isMultiTenancyEnabled) && loginService.externalLoginProviders.length > 0">
+    {{"LoginWith" | localize}}
+    <i *ngFor="let provider of loginService.externalLoginProviders" title="{{provider.name}}" (click)="externalLogin(provider)"
+        nz-icon [nzType]="provider.icon" class="icon"></i>
+</div>
+<!-- <div class="text-center">
+    <span *ngIf="isSelfRegistrationAllowed">
+        <a class="register" routerLink="/account/register">{{"CreateAnAccount" | localize}}</a>
+        <nz-divider nzType="vertical"></nz-divider>
+    </span>
+    <span *ngIf="!multiTenancySideIsTeanant && isTenantSelfRegistrationAllowed">
+            <a class="register" routerLink="/account/register-tenant">{{"NewTenant" | localize}}</a>
+            <nz-divider nzType="vertical"></nz-divider>
+        </span>
+    <span>
+        <a class="register" routerLink="/account/email-activation">{{"EmailActivation" | localize}}</a>
+    </span>
+</div> -->

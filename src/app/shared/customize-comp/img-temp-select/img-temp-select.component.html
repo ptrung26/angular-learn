@@ -1,0 +1,15 @@
+<div class="root">
+    <button *ngIf="showBtnButton" nz-button (click)="deleteImg()" nzType="danger" title="Xóa ảnh" class="btn-xoa">
+        <i nz-icon nzType="delete" nzTheme="outline"></i>
+    </button>
+    <div class="wrap-img" (click)="showSelecImgModal()">
+        <ng-container *ngIf="!imgByteArrSource">
+            <img *ngIf="!imgIdLinkInit" [src]="srcImgDefault" [ngClass]="{'img-circle': isCircleImg, 'img-upload': true}"
+                [ngStyle]="{width:imgWidth, height:imgHeight}"/>
+            <img *ngIf="imgIdLinkInit" [src]="_imgIdLinkInit" [ngClass]="{'img-circle': isCircleImg, 'img-upload': true}"
+                [ngStyle]="{width:imgWidth, height:imgHeight}"/>
+        </ng-container>
+        <img *ngIf="imgByteArrSource" [src]="imgByteArrSource" [ngClass]="{'img-circle': isCircleImg, 'img-upload': true}"
+            [ngStyle]="{width:imgWidth, height:imgHeight}"/>
+    </div>
+</div>

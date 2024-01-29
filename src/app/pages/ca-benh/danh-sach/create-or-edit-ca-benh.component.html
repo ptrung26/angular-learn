@@ -1,0 +1,720 @@
+<ora-page-header [title]='headerTitle' [action]='actionHeader'>
+    <ng-template #actionHeader>
+        <button type='button' nz-button nzType='default' (click)='close(false)'>Đóng</button>
+        <button type='button' *ngIf='!isView' [nzLoading]='saving' nz-button nzType='primary' (click)='save()'><i
+                nz-icon nzType='save'></i>Lưu
+        </button>
+    </ng-template>
+</ora-page-header>
+<nz-content class='bgwhite'>
+    <form nz-form [formGroup]='rfDataModal' nzLayout='horizontal'>
+        <nz-row nzGutter='8'>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label nzFor='hoTen' [nzSm]='8' nzRequired>Họ tên</nz-form-label>
+                    <nz-form-control [nzSm]='16' nzErrorTip='Giá trị bắt buộc!'>
+                        <input nz-input [readonly]='isView' formControlName='hoTen' />
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label nzFor='namSinh' [nzSm]='8' nzRequired>Năm sinh</nz-form-label>
+                    <nz-form-control [nzSm]='6' nzErrorTip='Giá trị bắt buộc!'>
+                        <nz-input-number [nzDisabled]='isView' style='width: 100%;' formControlName='namSinh'
+                            (change)='changeNamSinh($event)' [nzMin]='minYear' [nzMax]='maxYear'></nz-input-number>
+                    </nz-form-control>
+                    <nz-form-label nzFor='tuoi' [nzSm]='4' nzRequired>Tuổi</nz-form-label>
+                    <nz-form-control [nzSm]='6' nzErrorTip='Giá trị bắt buộc!'>
+                        <nz-input-number style='width: 100%;' nzDisabled='true' formControlName='tuoi'>
+                        </nz-input-number>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+
+            <nz-col nzLg='8'>
+                <nz-form-item>
+                    <nz-form-label nzFor='gioiTinh' [nzSm]='8' nzRequired>Giới tính</nz-form-label>
+                    <nz-form-control [nzSm]='16' nzErrorTip='Giá trị bắt buộc!'>
+                        <ora-radio [disabled]='isView' dirGioiTinh formControlName='gioiTinh'></ora-radio>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='8'>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label nzFor='dienThoai' [nzSm]='8'>Điện thoại</nz-form-label>
+                    <nz-form-control [nzSm]='16' nzErrorTip='Số ĐT không hợp lệ'>
+                        <input nz-input [readonly]='isView' formControlName='dienThoai' />
+                        <!-- <nz-input-number [nzDisabled]="isView" style="width: 100%;" formControlName="dienThoai">
+                        </nz-input-number> -->
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <!--            <nz-col nzLg='8'>-->
+            <!--                <nz-form-item>-->
+            <!--                    <nz-form-label nzFor='danTocId' [nzSm]='8'>Dân tộc</nz-form-label>-->
+            <!--                    <nz-form-control [nzSm]='16'>-->
+            <!--                        <dantoc-combo [disabled]='isView' formControlName='danTocId'></dantoc-combo>-->
+            <!--                    </nz-form-control>-->
+            <!--                </nz-form-item>-->
+            <!--            </nz-col>-->
+            <nz-col nzLg='8'>
+                <nz-form-item>
+                    <nz-form-label nzFor='ngheNghiepId' [nzSm]='8'>Nghề nghiệp</nz-form-label>
+                    <nz-form-control [nzSm]='16'>
+                        <nghenghiep-combo [disabled]='isView' formControlName='ngheNghiepId'></nghenghiep-combo>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='8'>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label nzFor='maTinh' [nzSm]='8' nzRequired='true'>Tỉnh/Thành phố</nz-form-label>
+                    <nz-form-control [nzSm]='16' nzErrorTip='Giá trị bắt buộc!'>
+                        <tinh-combo [disabled]='isView' formControlName='maTinh'></tinh-combo>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label nzFor='maHuyen' [nzSm]='8' nzRequired='true'>Quận/Huyện</nz-form-label>
+                    <nz-form-control [nzSm]='16' nzErrorTip='Giá trị bắt buộc!'>
+                        <huyen-combo [disabled]='isView' formControlName='maHuyen' [maTinh]='rfDataModal.value.maTinh'>
+                        </huyen-combo>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label nzFor='maXa' [nzSm]='8' nzRequired='true'>Xã/Phường</nz-form-label>
+                    <nz-form-control [nzSm]='16' nzErrorTip='Giá trị bắt buộc!'>
+                        <xa-combo [disabled]='isView' formControlName='maXa' [maHuyen]='rfDataModal.value.maHuyen'>
+                        </xa-combo>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='8'>
+            <nz-col nzLg='16'>
+                <nz-form-item>
+                    <nz-form-label nzFor='diaChi' [nzSm]='4'>Địa chỉ</nz-form-label>
+                    <nz-form-control [nzSm]='20'>
+                        <input nz-input [readonly]='isView' formControlName='diaChi' />
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='8'>
+                <nz-form-item>
+                    <nz-form-label [nzSm]='8'>Số thẻ BHYT</nz-form-label>
+                    <nz-form-control [nzSm]='16'>
+                        <input nz-input [readonly]='isView' formControlName='soBHYT' maxlength='15' />
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+
+        <nz-row nzGutter='8'>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label [nzSm]='8' nzRequired='true'>Số CMND/CCCD</nz-form-label>
+                    <nz-form-control [nzSm]='16' [nzErrorTip]='errorTpl'>
+                        <input nz-input [readonly]='isView' formControlName='soCMND' maxlength='12' />
+
+                    </nz-form-control>
+                    <ng-template #errorTpl let-control>
+                        <ng-container *ngIf="control.hasError('required')">Giá trị bắt buộc và chỉ nhập số!
+                        </ng-container>
+                        <ng-container *ngIf="control.hasError('SoCMNDExist')"> Số CMND đã tồn tại !</ng-container>
+                    </ng-template>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='8'>
+                <nz-form-item>
+                    <nz-form-label [nzSm]='8'>Ngày cấp</nz-form-label>
+                    <nz-form-control [nzSm]='16'>
+                        <ora-date-picker [disabled]='isView' formControlName='ngayCapCMND'
+                            [disabledDate]='disabledDate'></ora-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label [nzSm]='8'>Nơi cấp</nz-form-label>
+                    <nz-form-control [nzSm]='16'>
+                        <input nz-input [readonly]='isView' formControlName='noiCapCMND' />
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='8'>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label [nzSm]='8'>Nhiễm HIV</nz-form-label>
+                    <nz-form-control [nzSm]='16'>
+                        <label [nzDisabled]='isView' nz-checkbox formControlName='nhiemHIV'>
+                            <i>(Chọn nếu nhiễm HIV)</i>
+                        </label>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label [nzSm]='8'>Viêm gan D</nz-form-label>
+                    <nz-form-control [nzSm]='16'>
+                        <label [nzDisabled]='isView' nz-checkbox formControlName='viemGanD'>
+                            <i>(Chọn nếu viêm gan D)</i>
+                        </label>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+            <nz-col nzLg='8' nzSm='12'>
+                <nz-form-item>
+                    <nz-form-label [nzSm]='8'>Tử vong</nz-form-label>
+                    <nz-form-control [nzSm]='8'>
+                        <label [nzDisabled]='isView' nz-checkbox formControlName='tuVong'>
+                            <i>(Chọn nếu tử vong)</i>
+                        </label>
+                    </nz-form-control>
+                    <nz-form-control *ngIf='rfDataModal.value.tuVong===true' [nzSm]='8' nzErrorTip='Giá trị bắt buộc!'>
+                        <ora-date-picker placeHolder='Ngày tử vong' [disabled]='isView' formControlName='ngayTuVong'
+                            [disabledDate]='disabledDate'></ora-date-picker>
+                    </nz-form-control>
+                </nz-form-item>
+            </nz-col>
+        </nz-row>
+        <nz-tabset nzType='card' class='parentTab'>
+            <nz-tab nzTitle='Xét nghiệm huyết thanh học'>
+                <nz-row class='row-border header margin-top-20'>
+                    <nz-col nzLg='8'>
+                        Xét nghiệm
+                    </nz-col>
+                    <nz-col nzLg='8'>
+                        Kết quả
+                    </nz-col>
+                    <nz-col nzLg='8'>
+                        Ngày làm
+                    </nz-col>
+                </nz-row>
+                <nz-row class='row-border no-border-top'>
+                    <nz-col nzLg='8' class='bold'>
+                        Viêm gan B (HBsAg)
+                    </nz-col>
+                    <nz-col nzLg='8'>
+                        <nz-form-item>
+                            <nz-form-control nzErrorTip='Giá trị bắt buộc!'>
+                                <ora-radio [disabled]='isView' dirAllKetQuaXetNghiem formControlName='hBsAg_KetQua'>
+                                </ora-radio>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </nz-col>
+                    <nz-col nzLg='8'>
+                        <nz-form-item>
+                            <nz-form-control nzErrorTip='Giá trị bắt buộc!'>
+                                <ora-date-picker [disabled]='isView' formControlName='hBsAg_NgayLam'
+                                    [disabledDate]='disabledDate'>
+                                </ora-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </nz-col>
+                </nz-row>
+                <nz-row class='row-border no-border-top'>
+                    <nz-col nzLg='8' class='bold'>
+                        Viêm gan C (Anti-HCV)
+                    </nz-col>
+                    <nz-col nzLg='8'>
+                        <nz-form-item>
+                            <nz-form-control nzErrorTip='Giá trị bắt buộc!'>
+                                <ora-radio [disabled]='isView' dirAllKetQuaXetNghiem formControlName='antiHCV_KetQua'>
+                                </ora-radio>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </nz-col>
+                    <nz-col nzLg='8'>
+                        <nz-form-item>
+                            <nz-form-control nzErrorTip='Giá trị bắt buộc!'>
+                                <ora-date-picker [disabled]='isView' formControlName='antiHCV_NgayLam'
+                                    [disabledDate]='disabledDate'>
+                                </ora-date-picker>
+                            </nz-form-control>
+                        </nz-form-item>
+                    </nz-col>
+                </nz-row>
+
+            </nz-tab>
+            <nz-tab nzTitle='Xét nghiệm khẳng định và chẩn đoán'>
+                <nz-tabset nzType='line' class='childTab'>
+                    <nz-tab nzTitle='Xét nghiệm viêm gan B'
+                        *ngIf='rfDataModal.value.hBsAg_KetQua === ketQuaXetNghiem.DUONG_TINH'>
+                        <ng-container class=''>
+                            <h3>1. Xét nghiệm huyết học, sinh hóa</h3>
+                            <nz-row class='row-border header'>
+                                <nz-col nzLg='8'>
+                                    Tên xét nghiệm
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    Chỉ số
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    Đơn vị đo
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    PLT
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-input-number [nzDisabled]='isView' style='width: 100%;'
+                                                formControlName='plT_ChiSo'>
+                                            </nz-input-number>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-select [disabled]='isView' dirDonViChiSo
+                                                formControlName='plT_DonVi'></ora-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    AST
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-input-number [nzDisabled]='isView' style='width: 100%;'
+                                                formControlName='asT_ChiSo'>
+                                            </nz-input-number>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    U/L
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    ALT
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-input-number [nzDisabled]='isView' style='width: 100%;'
+                                                formControlName='alT_ChiSo'>
+                                            </nz-input-number>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    U/L
+                                </nz-col>
+                            </nz-row>
+                            <h3>2. Xét nghiệm dấu ấn sinh học</h3>
+                            <nz-row class='row-border header'>
+                                <nz-col nzLg='8'>
+                                    Xét nghiệm
+                                </nz-col>
+                                <nz-col nzLg='16'>
+                                    Kết quả
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    HbeAb test nhanh
+                                </nz-col>
+                                <nz-col nzLg='16'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirKetQuaXetNghiem
+                                                formControlName='hBeAb_KetQua'></ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    HBeAg test nhanh
+                                </nz-col>
+                                <nz-col nzLg='16'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirKetQuaXetNghiem
+                                                formControlName='hBeAg_KetQua'></ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    Anti-HBe
+                                </nz-col>
+                                <nz-col nzLg='16'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirKetQuaXetNghiem
+                                                formControlName='antiHBe_KetQua'>
+                                            </ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    Anti-HBs
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirKetQuaXetNghiem
+                                                formControlName='antiHBs_KetQua'>
+                                            </ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    Anti-HBc IgM
+                                </nz-col>
+                                <nz-col nzLg='16'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirKetQuaXetNghiem
+                                                formControlName='antiHBcIgM_KetQua'>
+                                            </ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    Anti-HBc IgG
+                                </nz-col>
+                                <nz-col nzLg='16'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirKetQuaXetNghiem
+                                                formControlName='antiHBcIgG_KetQua'>
+                                            </ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <h3>3. Xét nghiệm Tải lượng HBV DNA
+                            </h3>
+                            <nz-row class='row-border header'>
+                                <nz-col nzLg='6'>
+                                    Ngày làm
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Đơn vị
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Chỉ số
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Ngưỡng
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-date-picker [disabled]='isView' formControlName='hbvdnA_NgayLam'
+                                                [disabledDate]='disabledDate'>
+                                            </ora-date-picker>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-select [disabled]='isView' dirDonViXetNghiem
+                                                formControlName='hbvdnA_DonVi'></ora-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-input-number [nzDisabled]='isView' style='width: 100%;'
+                                                formControlName='hbvdnA_ChiSo'>
+                                            </nz-input-number>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirNhomNguong
+                                                formControlName='hbvdnA_Nguong'></ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <nz-form-item class='margin-top-20' style='display: none !important;'>
+                                <nz-form-label [nzSm]='4'>Chẩn đoán (viêm gan B)</nz-form-label>
+                                <nz-form-control [nzSm]='20'>
+                                    <textarea nz-input rows='4' formControlName='chanDoanViemGanB'></textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item class='margin-bottom-20'>
+                                <nz-form-label [nzSm]='4'>Viêm gan B Mạn</nz-form-label>
+                                <nz-form-control [nzSm]='20'>
+                                    <label [nzDisabled]='isView' nz-checkbox formControlName='viemGanBMan'>
+                                        <i>(Chọn nếu viêm gan B mạn)</i>
+                                    </label>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </ng-container>
+                    </nz-tab>
+                    <nz-tab nzTitle='Xét nghiệm viên gan C'
+                        *ngIf='rfDataModal.value.antiHCV_KetQua === ketQuaXetNghiem.DUONG_TINH'>
+                        <ng-container class=''>
+                            <nz-row class='row-border header'>
+                                <nz-col nzLg='8'>
+                                    Xét nghiệm
+                                </nz-col>
+                                <nz-col nzLg='16'>
+                                    Kết quả
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='8' class='bold'>
+                                    HCVcAg
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirKetQuaXetNghiem
+                                                formControlName='hcVcAg_KetQua'></ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+                            <h3>1. Xét nghiệm tải lượng HCV RNA
+                            </h3>
+                            <nz-row class='row-border header'>
+                                <nz-col nzLg='6'>
+                                    Ngày làm
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Đơn vị
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Chỉ số
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Ngưỡng
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-date-picker [disabled]='isView' formControlName='hcvarN_NgayLam'
+                                                [disabledDate]='disabledDate'>
+                                            </ora-date-picker>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-select [disabled]='isView' dirDonViXetNghiem
+                                                formControlName='hcvarN_DonVi'></ora-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <nz-input-number [nzDisabled]='isView' style='width: 100%;'
+                                                formControlName='hcvarN_ChiSo'>
+                                            </nz-input-number>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-radio [disabled]='isView' dirNhomNguong
+                                                formControlName='hcvarN_Nguong'></ora-radio>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                            </nz-row>
+
+                            <h3>2. Xét nghiệm HCV genotype
+                            </h3>
+                            <nz-row class='row-border header'>
+                                <nz-col nzLg='6'>
+                                    Ngày làm
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Kiểu gen
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    &nbsp;
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    &nbsp;
+                                </nz-col>
+                            </nz-row>
+                            <nz-row class='row-border no-border-top'>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-date-picker [disabled]='isView' formControlName='hcvGenotype_NgayLam'
+                                                [disabledDate]='disabledDate'>
+                                            </ora-date-picker>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    <nz-form-item>
+                                        <nz-form-control>
+                                            <ora-select [disabled]='isView' dirKieuGen
+                                                formControlName='hcvGenotype_KieuGen'></ora-select>
+                                        </nz-form-control>
+                                    </nz-form-item>
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    &nbsp;
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    &nbsp;
+                                </nz-col>
+                            </nz-row>
+                            <nz-form-item class='margin-top-20' style='display: none !important;'>
+                                <nz-form-label [nzSm]='4'>Chẩn đoán (viêm gan C)</nz-form-label>
+                                <nz-form-control [nzSm]='20'>
+                                    <textarea nz-input rows='4' formControlName='chanDoanViemGanC'></textarea>
+                                </nz-form-control>
+                            </nz-form-item>
+                            <nz-form-item class='margin-bottom-20'>
+                                <nz-form-label [nzSm]='4'>Viêm gan C Mạn</nz-form-label>
+                                <nz-form-control [nzSm]='20'>
+                                    <label [nzDisabled]='isView' nz-checkbox formControlName='viemGanCMan'>
+                                        <i>(Chọn nếu viêm gan C mạn)</i>
+                                    </label>
+                                </nz-form-control>
+                            </nz-form-item>
+                        </ng-container>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-tab>
+            <nz-tab nzTitle='Điều trị'>
+                <nz-tabset nzType='line' class='childTab'>
+                    <nz-tab nzTitle='Điều trị viêm gan B'
+                        *ngIf='rfDataModal.value.hBsAg_KetQua === ketQuaXetNghiem.DUONG_TINH && rfDataModal.value.viemGanBMan === true'>
+                        <ng-container class=''>
+                            <h3>Danh sách điều trị
+                                <button type='button' nz-button nzType='default' *ngIf='!isView'
+                                    (click)='addDieuTri(nhomBenh.VIEM_GAN_B)'><i nz-icon nzType='plus'
+                                        nzTheme='outline'></i> Thêm điều
+                                    trị
+                                </button>
+                            </h3>
+                            <nz-row class='row-border header'>
+                                <nz-col nzLg='4'>
+                                    Thao tác
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Ngày bắt đầu
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Ngày kết thúc
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    Kết quả điều trị (Giải phẫu bệnh)
+                                </nz-col>
+                            </nz-row>
+                            <ng-container *ngFor='let item of listDieuTri;index as i'>
+                                <nz-row class='row-border no-border-top align-center'
+                                    *ngIf='item.isDeleted==false && item.nhomBenh == nhomBenh.VIEM_GAN_B'>
+                                    <nz-col nzLg='4'>
+                                        <a *ngIf='!isView' (click)='editDieuTri(i)'><i nz-icon nzType='edit'></i>
+                                            Sửa</a>
+                                        <a *ngIf='!isView' (click)='deleteDieuTri(i)' style='margin-left: 10px'><i
+                                                nz-icon nzType='delete'></i> Xóa</a>
+                                        <a *ngIf='isView' (click)='editDieuTri(i)'><i nz-icon nzType='eye'></i> Xem</a>
+                                    </nz-col>
+                                    <nz-col nzLg='6'>
+                                        {{ item.ngayBatDau.toFormat('dd/MM/yyyy') }}
+                                    </nz-col>
+                                    <nz-col nzLg='6'>
+                                        {{ (item.ngayKetThuc !== undefined && item.ngayKetThuc !== '' &&
+                                        item.ngayKetThuc !== null) ? item.ngayKetThuc.toFormat('dd/MM/yyyy') : 'Đang cập
+                                        nhật' }}
+                                    </nz-col>
+                                    <nz-col nzLg='8'>
+                                        {{item.strKetQuaDieuTri}}
+                                    </nz-col>
+                                </nz-row>
+                            </ng-container>
+                        </ng-container>
+                    </nz-tab>
+
+                    <nz-tab nzTitle='Điều trị viêm gan C'
+                        *ngIf='rfDataModal.value.antiHCV_KetQua === ketQuaXetNghiem.DUONG_TINH  && rfDataModal.value.viemGanCMan === true'>
+                        <ng-container class=''>
+                            <h3>Danh sách điều trị
+                                <button type='button' nz-button nzType='default' *ngIf='!isView'
+                                    (click)='addDieuTri(nhomBenh.VIEM_GAN_C)'><i nz-icon nzType='plus'
+                                        nzTheme='outline'></i> Thêm điều
+                                    trị
+                                </button>
+                            </h3>
+                            <nz-row class='row-border header'>
+                                <nz-col nzLg='4'>
+                                    Thao tác
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Ngày bắt đầu
+                                </nz-col>
+                                <nz-col nzLg='6'>
+                                    Ngày kết thúc
+                                </nz-col>
+                                <nz-col nzLg='8'>
+                                    Kết quả điều trị (Giải phẫu bệnh)
+                                </nz-col>
+                            </nz-row>
+                            <ng-container *ngFor='let item of listDieuTri;index as i'>
+                                <nz-row class='row-border no-border-top align-center'
+                                    *ngIf='item.isDeleted==false && item.nhomBenh == nhomBenh.VIEM_GAN_C'>
+                                    <nz-col nzLg='4' nzAlign='center'>
+                                        <a *ngIf='!isView' (click)='editDieuTri(i)'><i nz-icon nzType='edit'></i>
+                                            Sửa</a>
+                                        <a *ngIf='!isView' (click)='deleteDieuTri(i)' style='margin-left: 10px'><i
+                                                nz-icon nzType='delete'></i> Xóa</a>
+                                        <a *ngIf='isView' (click)='editDieuTri(i)'><i nz-icon nzType='eye'></i> Xem</a>
+                                    </nz-col>
+                                    <nz-col nzLg='6'>
+                                        {{item.ngayBatDau.toFormat('dd/MM/yyyy')}}
+                                    </nz-col>
+                                    <nz-col nzLg='6'>
+                                        {{ (item.ngayKetThuc !== undefined && item.ngayKetThuc !== '' &&
+                                        item.ngayKetThuc !== null) ? item.ngayKetThuc.toFormat('dd/MM/yyyy') : 'Đang cập
+                                        nhật' }}
+                                    </nz-col>
+                                    <nz-col nzLg='8'>
+                                        {{item.strKetQuaDieuTri}}
+                                    </nz-col>
+                                </nz-row>
+                            </ng-container>
+                        </ng-container>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-tab>
+        </nz-tabset>
+    </form>
+</nz-content>

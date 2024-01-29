@@ -1,0 +1,38 @@
+.list-switch {
+    display: flex;
+    overflow-x: auto;
+
+    ora-switch {
+        margin-right: 48px;
+    }
+
+    ora-switch:last-child {
+        margin-right: 0px;
+    }
+
+    padding-bottom: 5px;
+}
+.active{
+    cursor: grabbing;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 7px !important;
+    height: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

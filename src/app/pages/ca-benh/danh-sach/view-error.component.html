@@ -1,0 +1,11 @@
+
+<ng-container>
+    <ul>
+        <li *ngFor="let item of dataItem.listError">
+            {{item}}
+        </li>
+    </ul>
+</ng-container>
+<div *nzModalFooter>
+    <button type="button" nz-button nzType="default" (click)="close()">Đóng</button>
+</div>

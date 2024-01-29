@@ -1,0 +1,235 @@
+:host ::ng-deep {
+    //g[aria-labelledby='id-66-title'] {
+    //    display: none !important;
+    //}
+    tspan[data-content*="-"] {
+        color: #0c6322;
+    }
+
+    .chart {
+        position: relative;
+
+        &:before {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 66px;
+            height: 22px;
+            background: #fff;
+            content: '';
+            z-index: 1
+        }
+    }
+
+    h2 {
+        font-family: Inter;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 30px;
+        text-transform: uppercase;
+        color: #2F4858;
+        margin: 30px 0 16px 0
+    }
+
+    p {
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .bg-white {
+        background: #FFFFFF;
+        border-radius: 4px;
+        padding: 20px;
+        position: relative;
+        margin: 15px 0;
+        min-height: 416px;
+    }
+
+    .header {
+        margin: -20px -20px 30px -20px;
+        line-height: 30px;
+        color: #2F4858;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 30px;
+        padding: 26px 20px 14px 20px;
+        border-bottom: 1px solid #ECEDF3;
+    }
+
+    h3 {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 30px;
+        margin-bottom: 20px;
+
+        strong {
+            font-weight: 600;
+            font-size: 24px;
+            color: #5491CD;
+        }
+    }
+
+    p {
+        font-weight: bold
+    }
+
+    .lstlabel {
+        margin-bottom: 30px;
+
+        p {
+            line-height: 24px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        ul {
+            list-style: none;
+            font-size: 14px;
+            padding-left: 30px;
+            font-family: 'Roboto', sans-serif;
+
+            li {
+                display: inline-block;
+                padding: 0 10px;
+            }
+
+            li span {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .total {
+        padding: 10px 16px;
+        min-height: 80px;
+        color: #fff;
+        font-size: 18px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        position: relative;
+        padding-left: 90px;
+
+        span.icon {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border-radius: 50%;
+            text-align: center;
+            margin-right: 16px;
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            margin-top: -30px;
+            line-height: 60px;
+
+            img {
+            }
+        }
+
+        strong {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 0;font-size:18px;font-weight: normal;
+        }
+
+        &.bg-blue {
+            background: #5491CD !important;
+            line-height: 24px;
+        }
+
+        &.bg-red {
+            line-height: 72px;
+            background: #E05252 !important;
+        }
+    }
+
+    span.bullet {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+        margin-left: 36px;
+    }
+
+    span.bullet:first-child {
+        margin-left: 0;
+    }
+
+    .bullet-blue {
+        background: #4EC4FF
+    }
+
+    .bullet-red {
+        background: #E05252
+    }
+
+    .fw500 {
+        font-weight: 500;
+    }
+
+    table {
+        width: 100%;
+        border: 1px solid #f0f0f0
+    }
+
+    table th {
+        background: #F4F7F6 !important;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 44px;
+        color: #2F4858;
+    }
+
+    table tr {
+        line-height: 48px;
+    }
+
+    table td {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    table tr:nth-child(2n) {
+        background: #F8F8F8;
+    }
+
+    .parentTab {
+        .ant-tabs-nav {
+            margin-bottom: 0;
+            text-transform: uppercase;
+        }
+
+        .ant-tabs-tab {
+            background: #e6e6e6;
+
+            &.ant-tabs-tab-active {
+                font-weight: bold;
+                background: #035f96;
+
+                .ant-tabs-tab-btn {
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    @media only screen and (max-width: 1366px) {
+        .header {
+            font-size: 13px;
+        }
+    }
+    @media only screen and (max-width: 1280px) {
+        .header {
+            font-size: 13px;
+        }
+    }
+}

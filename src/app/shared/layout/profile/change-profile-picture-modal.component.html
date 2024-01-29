@@ -1,0 +1,21 @@
+<form nz-form #changeProfilePictureModalForm="ngForm" (ngSubmit)="save()">
+    <div class="modal-header">
+        <div class="modal-title">
+            {{"ChangeProfilePicture" | localize}}
+        </div>
+    </div>
+    <nz-form-item>
+        <nz-form-control>            
+            <input type="file" class="d-inline-block" (change)="fileChangeEvent($event)" />
+            <span>{{"ProfilePicture_Change_Info" | localize:maxProfilPictureBytesUserFriendlyValue}}</span>
+
+            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="4 / 4"
+                [resizeToWidth]="128" format="png" (imageCropped)="imageCroppedFile($event)"></image-cropper>
+        </nz-form-control>
+    </nz-form-item>
+    <div class="modal-footer">
+        <button nz-button type="button" nzType="default" (click)="close()" [disabled]="saving">{{"Cancel" | localize}}</button>
+        <button nz-button type="submit" nzType="primary" [disabled]="!changeProfilePictureModalForm.form.valid || saving"><i
+                nz-icon nzType="save"></i>{{"Save" | localize}}</button>
+    </div>
+</form>

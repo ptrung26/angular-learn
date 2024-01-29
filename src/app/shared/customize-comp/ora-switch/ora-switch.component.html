@@ -1,0 +1,13 @@
+<div class="root noselect" [ngClass]="{
+'active': isActive
+}" (click)="changeValue()" [nz-tooltip]="title">
+    <div class="icon">
+        <img [src]="_imgSrc">
+    </div>
+    <div class="title">
+        <div class="content-title" *nzStringTemplateOutlet="title">
+            <span>{{title}}</span>
+        </div>
+    </div>
+
+</div>

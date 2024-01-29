@@ -1,0 +1,75 @@
+<div>
+    <h3 *ngIf="tenant">
+        <span>{{"EditTenant" | localize}}: {{tenant.tenancyName}}</span>
+    </h3>
+    <nz-spin [nzSpinning]="saving">
+        <form nz-form nzLayout="vertical" #tenantEditForm="ngForm" (ngSubmit)="save()" *ngIf="tenant">
+            <nz-form-item>
+                <nz-form-label nzFor="Name">{{'Name' | localize}}</nz-form-label>
+                <nz-form-control [nzErrorTip]="nameValidationTpl" nzHasFeedback>
+                    <input nz-input name="name" #nameInput="ngModel" [(ngModel)]="tenant.name" placeholder="{{'Name' | localize}}"
+                        required maxlength="128">
+                    <ng-template #nameValidationTpl let-control>
+                        <validation-messages [formCtrl]="control"></validation-messages>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item *ngIf="currentConnectionString">
+                <nz-form-label nzFor="connectionString">
+                    {{'DatabaseConnectionString' | localize}}
+                    <em>
+                        <i nz-icon nzType="warning" nz-tooltip [nzTooltipTitle]="l('TenantDatabaseConnectionStringChangeWarningMessage')"></i>
+                    </em>
+                </nz-form-label>
+                <nz-form-control [nzErrorTip]="connectionStringValidationTpl" nzHasFeedback>
+                    <input nz-input name="connectionString" #connectionStringInput="ngModel" [(ngModel)]="tenant.connectionString"
+                        placeholder="{{'DatabaseConnectionString' | localize}}" required maxlength="1024">
+                    <ng-template #connectionStringValidationTpl let-control>
+                        <validation-messages [formCtrl]="control"></validation-messages>
+                    </ng-template>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item nz-row>
+                <nz-form-label nzFor="edition">
+                    {{"Edition" | localize}}
+                </nz-form-label>
+                <nz-form-control>
+                    <nz-select [(ngModel)]="selectedEdtionId" id="edition" name="edition" (ngModelChange)="onEditionChange()">
+                        <nz-option *ngFor="let edition of editions" [nzLabel]="edition.displayText" [nzValue]="edition.value"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-control [hidden]="!isSubscriptionFieldsVisible">
+                <label nz-checkbox name="IsUnlimited" [(ngModel)]="isUnlimited" (ngModelChange)="onUnlimitedChange()">{{"UnlimitedTimeSubscription" | localize}}</label>
+            </nz-form-control>
+
+            <nz-form-item [hidden]="isUnlimited || !isSubscriptionFieldsVisible">
+                <nz-form-label nzFor="SubscriptionEndDate">{{'SubscriptionEndDate' | localize}}</nz-form-label>
+                <nz-form-control>
+                    <nz-date-picker name="SubscriptionEndDateUtc" [(ngModel)]="tenant.subscriptionEndDateUtc"
+                        (ngModelChange)="subscriptionEndDateChange($event)" [required]="!isUnlimited"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-control [hidden]="!isSubscriptionFieldsVisible">
+                <label nz-checkbox name="IsInTrialPeriod" [nzDisabled]="selectedEditionIsFree()" [(ngModel)]="tenant.isInTrialPeriod">{{"IsInTrialPeriod" | localize}}</label>
+            </nz-form-control>
+
+            <nz-form-control>
+                <label nz-checkbox name="isActive" [(ngModel)]="tenant.isActive">{{"IsActive" | localize}}</label>
+            </nz-form-control>
+
+            <div class="modal-footer">
+                <button nz-button type="button" [disabled]="saving" (click)="close()">
+                    {{"Cancel" | localize}}
+                </button>
+                <button nz-button [nzType]="'primary'" type="submit" [disabled]="!tenantEditForm.form.valid||saving">
+                    <i nz-icon nzType="save"></i> {{"Save" | localize}}
+                </button>
+            </div>
+        </form>
+    </nz-spin>
+</div>

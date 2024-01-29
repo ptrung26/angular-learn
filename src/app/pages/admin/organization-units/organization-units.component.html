@@ -1,0 +1,30 @@
+<page-header [title]="title">
+    <ng-template #title>
+        {{'OrganizationUnits' | localize}}
+        <span class="text-sm text-grey-dark">
+            <nz-divider nzType="vertical"></nz-divider>
+            {{'OrganizationUnitsHeaderInfo' | localize}}
+        </span>
+    </ng-template>
+</page-header>
+<nz-row nzGutter="8">
+    <nz-col nzSpan="8">
+        <organization-tree #ouTree (selectedChange)="ouSelected($event)"></organization-tree>
+    </nz-col>
+    <nz-col nzSpan="16">
+        <nz-card [nzTitle]="nzTitleTemplate">
+            <ng-template #nzTitleTemplate>
+                <span *ngIf="organizationUnit">{{organizationUnit.title}}</span>
+            </ng-template>
+
+            <nz-tabset>
+                <nz-tab nzTitle="{{'Members' | localize}}">
+                    <organization-unit-members #ouMembers (membersAdded)="ouTree.membersAdded($event)" (memberRemoved)="ouTree.memberRemoved($event)"></organization-unit-members>
+                </nz-tab>
+                <nz-tab nzTitle="{{'Roles' | localize}}">
+                    <organization-unit-roles #ouRoles (rolesAdded)="ouTree.rolesAdded($event)" (roleRemoved)="ouTree.roleRemoved($event)"></organization-unit-roles>
+                </nz-tab>
+            </nz-tabset>
+        </nz-card>
+    </nz-col>
+</nz-row>

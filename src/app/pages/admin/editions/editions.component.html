@@ -1,0 +1,95 @@
+<page-header [title]="title">
+    <ng-template #title>
+        {{'Editions' | localize}}
+        <span class="text-sm text-grey-dark">
+            <nz-divider nzType="vertical"></nz-divider>
+            {{'EditionsHeaderInfo' | localize}}
+        </span>
+    </ng-template>
+</page-header>
+
+<nz-card [nzBordered]="false">
+    <nz-row nzGutter="8">
+        <nz-col nzMd="20" nzSm="12">
+            <button nz-button [nzType]="'primary'" *ngIf="isGranted('Pages.Editions.Create')" (click)="createEdition()">
+                <i nz-icon nzType="plus"></i>
+                <span>
+                    {{"CreateNewEdition" | localize}}
+                </span>
+            </button>
+        </nz-col>
+    </nz-row>
+    <nz-row class="my-md">
+        <nz-table #nzDataTable [nzData]="dataList" [nzLoading]="isTableLoading" nzShowPagination="false">
+            <thead (nzSortOrderChange)="gridSort($event)">
+                <tr>
+                    <th nzShowSort nzColumnKey="tenancyName">
+                        {{'EditionName' | localize}}
+                    </th>
+                    <th>
+                        {{'Price' | localize}}
+                    </th>
+                    <th>
+                        {{'IsTrialActive' | localize}}
+                    </th>
+                    <th>
+                        {{'WaitingDayAfterExpire' | localize}}
+                    </th>
+                    <th>
+                        {{'ExpiringEdition' | localize}}
+                    </th>
+                    <th class="text-center">
+                        {{'Actions' | localize}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of nzDataTable.data">
+                    <td>
+                        {{item.displayName}}
+                    </td>
+                    <td>
+                        <span *ngIf="item.monthlyPrice || item.annualPrice">
+                            $ {{item.monthlyPrice}} {{"Monthly" | localize }} / $ {{item.annualPrice}}
+                            {{"Annual" | localize }}
+                        </span>
+                        <span *ngIf="!item.monthlyPrice && !item.annualPrice">
+                            {{"Free" | localize}}
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngIf="item.trialDayCount">
+                            {{"Yes" | localize}}, {{item.trialDayCount}} {{"Days" | localize}}
+                        </span>
+                        <span *ngIf="!item.trialDayCount">
+                            {{"No" | localize}}
+                        </span>
+                    </td>
+                    <td>
+                        {{item.waitingDayAfterExpire}}
+                    </td>
+                    <td>
+                        {{item.expiringEditionDisplayName}}
+                    </td>
+                    <td class="text-center">
+                        <ng-container *ngIf="isGranted('Pages.Editions.Edit')">
+                            <a (click)="editEdition(item)">
+                                <i nz-icon nzType="edit"></i>
+                                {{'Edit' | localize}}
+                            </a>
+                            <nz-divider nzType="vertical"></nz-divider>
+                        </ng-container>
+                        <ng-container *ngIf="isGranted('Pages.Editions.Delete')">
+                            <a nz-popconfirm
+                                [nzPopconfirmTitle]="'EditionDeleteWarningMessage'| localize:item.displayName"
+                                (nzOnConfirm)="deleteEdition(item)" [nzOkText]="l('Ok')" [nzCancelText]="l('Cancel')">
+                                <i nz-icon nzType="delete"></i>
+                                {{'Delete' | localize}}
+                            </a>
+                        </ng-container>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </nz-row>
+</nz-card>

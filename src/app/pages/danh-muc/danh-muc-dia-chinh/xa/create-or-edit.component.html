@@ -1,0 +1,40 @@
+<form nz-form [formGroup]="rfDataModal" nzLayout="horizontal">
+    <nz-form-item>
+        <nz-form-label nzFor="maXa" [nzSm]="8" nzRequired>Mã Xã/Phường</nz-form-label>
+        <nz-form-control [nzSm]="16" nzErrorTip="Giá trị bắt buộc!">
+            <input nz-input formControlName="maXa"/>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzGutter="6">
+        <nz-form-label nzFor="tenXa" [nzSm]="8" nzRequired>Tên Xã/Phường</nz-form-label>
+        <nz-form-control [nzSm]="16" nzErrorTip="Giá trị bắt buộc!">
+            <input nz-input formControlName="tenXa">
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="maTinh" [nzSm]="8" nzRequired="true">Tỉnh/Thành phố</nz-form-label>
+        <nz-form-control [nzSm]="16" nzErrorTip="Giá trị bắt buộc!">
+            <tinh-combo formControlName='maTinh'></tinh-combo>
+            <!-- <nz-input-number formControlName="tinhId"></nz-input-number> -->
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="maHuyen" [nzSm]="8" nzRequired="true">Quận/Huyện</nz-form-label>
+        <nz-form-control [nzSm]="16" nzErrorTip="Giá trị bắt buộc!">
+            <huyen-combo formControlName='maHuyen' [maTinh]="rfDataModal.value.maTinh"></huyen-combo>
+            <!-- <nz-input-number formControlName="tinhId"></nz-input-number> -->
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzFor="cap" [nzSm]="8">Cấp</nz-form-label>
+        <nz-form-control [nzSm]="16">
+            <input nz-input formControlName="cap"/>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<div *nzModalFooter>
+    <button type="button" nz-button nzType="default" (click)="close()">Đóng</button>
+    <button type="button" [nzLoading]="saving" nz-button nzType="primary" (click)="save()"><i nz-icon
+                                                                                              nzType="save"></i>Lưu
+    </button>
+</div>

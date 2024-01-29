@@ -1,0 +1,31 @@
+<div class="block-step" [ngClass]="{
+            'active':isActive|| isSuccess,
+            'success':isSuccess,
+            'disable':disable
+        }">
+    <div class="top">
+        <div class="line first-line">
+            <hr>
+        </div>
+        <div class="icon" (click)="onClickStep()">
+            <div class="round">
+                <i nz-icon *ngIf="isSuccess">
+                    <img style="width:15px;" src="/assets/common/icon/tick.svg"/>
+                </i>
+            </div>
+
+        </div>
+        <div class="line last-line">
+            <hr>
+        </div>
+    </div>
+
+    <div class="title" *nzStringTemplateOutlet="title" (click)="onClickStep()">
+        {{title}}
+    </div>
+    <div class="description" *nzStringTemplateOutlet="description">
+        <span style="font-weight: bold">{{description}}</span>
+    </div>
+</div>
+<!--<ng-content>-->
+<!--</ng-content>-->

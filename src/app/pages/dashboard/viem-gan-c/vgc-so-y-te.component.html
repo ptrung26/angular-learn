@@ -1,0 +1,159 @@
+<nz-tabset nzType='card' class='parentTab' [(nzSelectedIndex)]="indexTab">
+    <nz-tab nzTitle='Xét nghiệm huyết học' nzForceRender='true'>
+        <nz-row nzGutter='30'>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <h3>Số người xét nghiệm anti-HCV: <strong>{{ this.tongSangLoc }}</strong>
+                    </h3>
+                    <div class='chart' id='vgc-syt-screening-test' style='width: 100%; height: 450px;'></div>
+                    <div class='lstlabel text-center'>
+                        <ul>
+                            <li><span style='background: #5491CD'></span>Nam {{vgcsytscreeningtestlabel[0]}}({{vgcsytscreeningtestlabel[1]}}%)
+                            </li>
+                            <li><span style='background: #FFC2BC'></span>Nữ {{vgcsytscreeningtestlabel[2]}}({{vgcsytscreeningtestlabel[3]}}%)
+                            </li>
+                        </ul>
+                        <p>Số người xét nghiệm anti-HCV theo giới tính và nhóm tuổi</p>
+                    </div>
+                </div>
+            </nz-col>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <h3>Tỷ lệ người có kết quả XN anti-HCV dương tính:
+                        <strong>{{ sangLocDuongTinh }}
+                            ({{sangLocDuongTinhPercent.toFixed(1)}}%)</strong>
+                    </h3>
+                    <div class='chart' id='vgc-syt-screening-test-positive'
+                         style='width: 100%; height: 450px;'></div>
+                    <div class='lstlabel text-center'>
+                        <ul>
+                            <li><span style='background: #5491CD'></span>Nam {{vgcsytscreeningtestpositivelable[0]}}({{vgcsytscreeningtestpositivelable[1]}}%)
+                            </li>
+                            <li><span style='background: #FFC2BC'></span>Nữ {{vgcsytscreeningtestpositivelable[1]}}
+                                ({{vgcsytscreeningtestpositivelable[2]}}%)
+                            </li>
+                        </ul>
+                        <p>Số người xét nghiệm anti-HCV dương tính theo giới tính và nhóm tuổi</p>
+                    </div>
+                </div>
+            </nz-col>
+        </nz-row>
+        <div class='bg-white'>
+            <h3>10 cơ sở có xét nghiệm anti-HCV cao nhất</h3>
+            <div class='chart' id='vgc-syt-chart-top-hospital' style='width: 100%; height: 500px;'></div>
+        </div>
+    </nz-tab>
+    <nz-tab nzTitle='Chẩn đoán và Điều trị' nzForceRender='true'>
+        <nz-row nzGutter='30'>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <div class='header'>Tỷ lệ người bệnh được xét nghiệm khẳng định viêm gan C:
+                        <strong>{{VGC_XetNghiemKhangDinh}} ({{(VGC_XetNghiemKhangDinh*100/sangLocDuongTinh).toFixed(2)}}%)</strong>
+                    </div>
+                    <div class='chart' id='vgc-syt-chart-sex-cag-test'
+                         style='width: 100%; height: 230px;'></div>
+                    <div class='lstlabel text-center'>
+                        <p>Số người có anti-HCV dương tính được
+                            xét nghiệm khẳng định viêm gan C theo giới tính</p>
+                    </div>
+                    <div class='chart' id='vgc-syt-chart-old-cag-test'
+                         style='width: 100%; height: 300px;'></div>
+                    <p class='text-center'>Số người có anti-HCV dương tính được xét
+                        nghiệm khẳng định viêm gan C theo nhóm tuổi</p>
+                </div>
+            </nz-col>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <div class='header'>Tỷ lệ người bệnh được chẩn đoán viêm gan C:
+                        <strong>{{VGC_XetNghiemKhangDinhChuanDoan}} <span
+                            *ngIf="VGC_XetNghiemKhangDinh > 0">({{(VGC_XetNghiemKhangDinhChuanDoan * 100 / VGC_XetNghiemKhangDinh).toFixed(1)}}
+                            %)</span></strong>
+                    </div>
+                    <div class='chart' id='vgc-syt-chart-sex-cag-positive'
+                         style='width: 100%; height: 230px;'></div>
+                    <div class='lstlabel text-center'>
+                        <p>Số người được xét nghiệm khẳng định viêm gan C và được chẩn đoán viêm gan C theo giới
+                            tính</p>
+                    </div>
+                    <div class='chart' id='vgc-syt-chart-old-cag-positive'
+                         style='width: 100%; height: 300px;'></div>
+                    <p class='text-center'>Số người được xét nghiệm khẳng định viêm gan C và được chẩn đoán viêm
+                        gan C theo nhóm
+                        tuổi</p>
+                </div>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter="30">
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white' style='min-height: 525px'>
+                    <div class='header'>Tỷ lệ người bệnh được chẩn đoán viêm gan C mạn được điều trị</div>
+                    <div class='chart' id='vgc-syt-chart-beingtreatment'
+                         style='height: 230px; margin: 135px 0'></div>
+                </div>
+            </nz-col>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <div class='header'>Số người mắc viêm gan C được điều trị theo cơ sở</div>
+                    <div class='chart' id='vgc-syt-chart-infection-treatment'
+                         style='width: 100%; height: 420px'></div>
+                    <div class='lstlabel text-center'>
+                        <ul>
+                            <li><span style='background: #2AE1AA'></span>Số người bệnh chưa được điều trị
+                            </li>
+                            <li><span style='background: #5491CD'></span>Số người bệnh điều trị</li>
+                        </ul>
+                    </div>
+                </div>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='30'>
+
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <div class='header'>Tỷ lệ người bệnh hoàn thành điều trị và khỏi bệnh (đạt SVR12)</div>
+                    <div class='chart' id='vgc-syt-chart-cure' style='width: 100%; height: 230px; margin: 98px 0'></div>
+<!--                    <div class='lstlabel text-center'>-->
+<!--                        <p>Số người bệnh hoàn thành điều trị và đạt SVR12</p>-->
+<!--                    </div>-->
+                </div>
+            </nz-col>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <div class='header'>Mô hình đa bậc
+                        xét nghiệm
+                        và
+                        điều trị viêm gan C
+                    </div>
+                    <div class='chart' id='vgc-syt-chart-multi-level' style='width: 100%; height: 450px;'></div>
+                </div>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='30'>
+
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='bg-white'>
+                    <div class='header'>Nguồn chi trả điều trị viêm gan C</div>
+                    <div class='chart' id='vgc-syt-chart-treatment-insurance' style='height: 230px'></div>
+                </div>
+            </nz-col>
+        </nz-row>
+        <nz-row nzGutter='30'>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='total bg-blue'>
+                    <span class='icon'><img src='../../../assets/icon-1.png' height='32' width='32'/></span>
+                    <p style="line-height: 36px;">Tỷ lệ người bệnh đồng nhiễm viêm gan C/viêm gan B:
+                        <strong> {{dongNhiemBC}}</strong></p>
+                    <p style="line-height: 36px;">Tỷ lệ người bệnh đồng nhiễm viêm gan C/HIV:
+                        <strong> {{dongNhiemCHIV}}</strong></p>
+                </div>
+            </nz-col>
+            <nz-col nzLg='12' nzMd='12' nzSm='24' nzXs='24'>
+                <div class='total bg-red'>
+                    <span class='icon'><img src='../../../assets/icon-2.png' height='32' width='32'/></span>
+                    <span>Số người bệnh tử vong liên quan đến Viêm Gan C:</span>
+                    <strong> {{tuVong}}</strong>
+                </div>
+            </nz-col>
+        </nz-row>
+    </nz-tab>
+</nz-tabset>

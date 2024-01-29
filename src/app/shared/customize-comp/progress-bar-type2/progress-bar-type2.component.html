@@ -1,0 +1,16 @@
+<div class="content-data">
+    <div class="text">
+        <ng-content></ng-content>
+    </div>
+    <div class="percent">
+        {{widthBar}}%
+    </div>
+
+</div>
+<div class="bar-area border-rad" [ngStyle]="{backgroundColor:colorBackground}">
+    <div class="border-rad bar-value" #myBar
+         [ngStyle]="{
+                     backgroundImage: colorBar,
+                      height: _heightBar+'px', width:widthBar +'%'}"></div>
+</div>
+

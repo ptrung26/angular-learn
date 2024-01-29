@@ -1,0 +1,43 @@
+<div class="full-bar-area">
+    <div class="bar-point-area-outer">
+        <div class="bar-point-area-inner">
+            <div class="point-area" [ngStyle]="{height: '18px'}">
+                <ng-container *ngFor="let point of points; index as i">
+                    <div [ngStyle]="{marginLeft:point.value+'%'}">
+                        <div class="point-img" nz-tooltip
+                             [nzTooltipTitle]="point.title?point.title + ' (' + point.value + '%)':''">
+                            <i nz-icon>
+                                <div style="display:flex; flex-direction: column">
+                                    <img style="width: 14px" src="/assets/common/icon/location.svg"/>
+                                    <div [ngStyle]="{height:heightBar+'px'}"></div>
+                                    <span style="font-size:11px"> {{point.titleShort}}</span>
+                                </div>
+                            </i>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="percent font-weight-bold"
+                     [ngStyle]="{
+                     color: colorBarTo}">
+                    {{widthBar}}%
+                </div>
+            </div>
+            <div class="bar-area border-rad" [ngStyle]="{backgroundColor:colorBackground}">
+                <div class="border-rad bar-value"
+                     [ngClass]="{'bar-value-animation': usingAnimation}"
+                     #myBar
+                     [ngStyle]="{
+                     backgroundImage: colorBar,
+                      height: _heightBar+'px', width:widthBar +'%'}"></div>
+            </div>
+            <div class="content-bottom">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+    <!--    <div class="percent-area">-->
+    <!--        <span class="percent-value">{{widthBar}}%</span>-->
+    <!--    </div>-->
+</div>
+
+

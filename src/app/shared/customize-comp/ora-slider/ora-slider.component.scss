@@ -1,0 +1,153 @@
+$colorDo: #FE6D73;
+$colorDoFocus: rgba(254, 109, 115, 0.31);
+$colorXanh: #4FA8E9;
+$colorXanhFocus: rgba(89, 165, 216, 0.27);
+$colorVang: #FFC144;
+$colorVangFocus: rgba(254, 218, 83, 0.35);
+$colorTim: #9859E9;
+$colorTimFocus: rgba(152, 89, 233, 0.41);
+.wrap-root {
+    text-align: center;
+    position: relative;
+    height: 40px;
+    margin-top: 7px;
+
+    .slider {
+        position: absolute;
+        width: 100%;
+        z-index: 1;
+    }
+
+    .number {
+        position: absolute;
+        z-index: 2;
+        top: 15px;
+        width: 100%;
+    }
+}
+
+:host ::ng-deep {
+    .ant-input-number-input {
+        text-align: center;
+        height: inherit;
+    }
+    nz-input-number {
+        border: none;
+        border-bottom: 1px dashed;
+        border-radius: 0;
+        background-color: transparent;
+
+        .ant-input-number-handler-wrap {
+            background: transparent;
+
+
+        }
+    }
+
+    .ant-slider {
+        margin: 0 0 5px;
+        height: 18px;
+
+        .ant-slider-rail {
+            height: 8px;
+        }
+
+        .ant-slider-track {
+            height: 8px;
+        }
+
+        .ant-slider-handle {
+            width: 20px;
+            height: 20px;
+            margin-top: -6px;
+        }
+    }
+
+
+    .mau-do {
+        .ant-slider-track {
+            background-color: $colorDo;
+        }
+
+        .ant-slider-handle {
+            border-color: $colorDo;
+        }
+
+        .ant-slider-handle.ant-tooltip-open {
+            border-color: $colorDo;
+        }
+
+        .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+            border-color: $colorDo;
+        }
+
+        .ant-slider-handle:focus {
+            box-shadow: 0 0 0 5px $colorDoFocus;
+        }
+    }
+
+    .mau-xanh {
+        .ant-slider-track {
+            background-color: $colorXanh;
+        }
+
+        .ant-slider-handle {
+            border-color: $colorXanh;
+        }
+
+        .ant-slider-handle.ant-tooltip-open {
+            border-color: $colorXanh;
+        }
+
+        .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+            border-color: $colorXanh;
+        }
+
+        .ant-slider-handle:focus {
+            box-shadow: 0 0 0 5px $colorXanhFocus;
+        }
+    }
+
+    .mau-vang {
+        .ant-slider-track {
+            background-color: $colorVang;
+        }
+
+        .ant-slider-handle {
+            border-color: $colorVang;
+        }
+
+        .ant-slider-handle.ant-tooltip-open {
+            border-color: $colorVang;
+        }
+
+        .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+            border-color: $colorVang;
+        }
+
+        .ant-slider-handle:focus {
+            box-shadow: 0 0 0 5px $colorVangFocus;
+        }
+    }
+    .mau-tim {
+        .ant-slider-track {
+            background-color: $colorTim;
+        }
+
+        .ant-slider-handle {
+            border-color: $colorTim;
+        }
+
+        .ant-slider-handle.ant-tooltip-open {
+            border-color: $colorTim;
+        }
+
+        .ant-slider:hover .ant-slider-handle:not(.ant-tooltip-open) {
+            border-color: $colorTim;
+        }
+
+        .ant-slider-handle:focus {
+            box-shadow: 0 0 0 5px $colorTimFocus;
+        }
+    }
+}

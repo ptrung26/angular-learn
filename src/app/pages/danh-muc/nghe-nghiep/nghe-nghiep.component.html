@@ -1,0 +1,88 @@
+<ora-page-header title="Nghề nghiệp" [action]="actionHeader">
+    <ng-template #actionHeader>
+        <button nz-button nzType="primary"
+                (click)="showCreateOrEditModal()"><i class="fa fa-plus"></i>Thêm mới
+        </button>
+    </ng-template>
+</ora-page-header>
+<ora-layout-filter (onSearch)="refresh()">
+    <form nz-form [formGroup]="rfFormGroup" nzLayout="vertical" (ngSubmit)="refresh()">
+        <nz-row nzGutter="8">
+            <nz-col nzLg="6" nzSm="12">
+                <input formControlName="filter" nz-input placeholder="Tìm kiếm từ khóa"/>
+            </nz-col>
+            <nz-col nzLg="4" nzSm="8">
+                <nz-select formControlName="isActive" style="width: 100%" nzPlaceHolder="Trạng thái"
+                           [nzCustomTemplate]="defaultTemplate">
+                    <ng-template #defaultTemplate let-selected>
+                        <i *ngIf="selected.nzValue" class="text-success" nz-icon nzType="check" nzTheme="outline"></i>
+                        <i *ngIf="!selected.nzValue" class="text-danger" nz-icon nzType="close" nzTheme="outline"></i>
+                        {{ selected.nzLabel }}
+                    </ng-template>
+                    <nz-option nzLabel="Kích hoạt" [nzValue]="true" nzCustomContent>
+                        <i class="text-success" nz-icon nzType="check" nzTheme="outline"></i>Kích hoạt
+                    </nz-option>
+                    <nz-option nzLabel="Không kích hoạt" [nzValue]="false" nzCustomContent>
+                        <i class="text-danger" nz-icon nzType="close" nzTheme="outline"></i>Không kích hoạt
+                    </nz-option>
+                </nz-select>
+            </nz-col>
+        </nz-row>
+    </form>
+</ora-layout-filter>
+
+<nz-table [nzData]="dataList" nzShowSizeChanger [nzFrontPagination]="false"
+          [nzLoading]="isTableLoading" [nzTotal]="totalItems"
+          [nzShowTotal]="totalTpl"
+          [(nzPageIndex)]="pageNumber"
+          [(nzPageSize)]="pageSize"
+          nzBordered="true"
+          (nzPageIndexChange)="pageNumberChange()" (nzPageSizeChange)="refresh()">
+          <thead (nzSortOrderChange)="gridSort($event)">
+
+            <tr>
+                <th width="20px">STT</th>
+                <th width="120px">Thao tác</th>
+                <th nzShowSort [nzSortFn]="true" nzColumnKey="ten">Tên</th>
+                <th nzShowSort [nzSortFn]="true" nzColumnKey="moTa">Mô tả</th>
+                <th width="120px" nzAlign="center" nzShowSort [nzSortFn]="true" nzColumnKey="sortOrder">Thứ tự</th>
+                <th width="120px" nzAlign="center" nzShowSort [nzSortFn]="true" nzColumnKey="isActive">Trạng thái</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let dataItem of dataList;index as i">
+                <td>{{skipCount + i + 1}}</td>
+
+                <td>
+                    <a (click)="delete(dataItem)" style="margin-right: 10px;">
+                        <span class="kt-font-danger">
+                            <i nz-icon nzType="delete" nzTheme="outline"></i>
+                        </span>
+                    </a>
+                    <a (click)="showCreateOrEditModal(dataItem)" >
+                        <span class="kt-font-success">
+                            <i nz-icon nzType="edit" nzTheme="outline"></i>
+                        </span>
+                    </a>
+                </td>
+                <td>
+                    {{dataItem.ten}}
+                </td>
+                <td>
+                    {{dataItem.moTa}}
+                </td>
+                <td nzAlign="center">
+                    {{dataItem.sortOrder}}
+                </td>
+                <td nzAlign="center">
+                    <i title="Kích hoạt" *ngIf="dataItem.isActive" class="text-success" nz-icon nzType="check"
+                    nzTheme="outline"></i>
+                    <i title="Không kích hoạt" *ngIf="!dataItem.isActive" class="text-danger" nz-icon nzType="close"
+                        nzTheme="outline"></i>
+                </td>
+            </tr>
+            </tbody>
+</nz-table>
+<ng-template #totalTpl let-range="range" let-total>
+    <span class="kt-font-primary kt-font-bold">Tổng số bản ghi: {{total}}</span>
+</ng-template>

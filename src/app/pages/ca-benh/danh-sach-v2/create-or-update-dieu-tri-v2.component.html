@@ -1,0 +1,110 @@
+<form nz-form [formGroup]="rfDataModal" nzLayout="horizontal">
+    <nz-row>
+        <nz-col nzSm='12'>
+            <nz-form-item>
+                <nz-form-label nzFor="ngayBatDau" [nzSm]="10" nzRequired>Ngày bắt đầu</nz-form-label>
+                <nz-form-control [nzSm]="12" nzErrorTip="Giá trị bắt buộc!">
+                    <ora-date-picker [disabled]="isView" formControlName="ngayBatDau" [disabledDate]='disabledDate'>
+                    </ora-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSm='12'>
+            <nz-form-item>
+                <nz-form-label nzFor="ngayKetThuc" [nzSm]="10">Ngày kết thúc</nz-form-label>
+                <nz-form-control [nzSm]="12">
+                    <ora-date-picker [disabled]="isView" formControlName="ngayKetThuc" [disabledDate]='disabledDate'>
+                    </ora-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+    </nz-row>
+    <nz-form-item style='position: relative'>
+        <span style='position: absolute; left: 0; top: 24px;font-size: 13px; font-style: italic'>(Giải phẫu bệnh)</span>
+        <nz-form-label nzFor="ketQuaDieuTri" [nzSm]="5">Kết quả điều trị</nz-form-label>
+        <nz-form-control [nzSm]="19">
+            <ora-radio dirKetQuaDieuTri class="vertical" [disabled]="isView"
+                formControlName="ketQuaDieuTri"></ora-radio>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class='margin-top-10'>
+        <nz-form-label nzFor="listThuocDieuTri" [nzSm]="5">Thuốc điều trị</nz-form-label>
+        <nz-form-control [nzSm]="19">
+            <nz-checkbox-group [nzDisabled]="isView" formControlName="listThuocDieuTri">
+            </nz-checkbox-group>
+        </nz-form-control>
+    </nz-form-item>
+    <h3 *ngIf='dataItem.nhomBenh=== nhomBenh.VIEM_GAN_B'>Xét nghiệm Tải lượng HBV DNA
+        <button type="button" nz-button nzType="default" *ngIf='!isView'
+            (click)="addXetNghiem('Tải lượng HBV DNA',nhomXetNghiemNhieuLan.HBV_DNA)"><i nz-icon nzType="plus"
+                nzTheme="outline"></i> Thêm xét nghiệm</button>
+    </h3>
+    <h3 *ngIf='dataItem.nhomBenh=== nhomBenh.VIEM_GAN_C'>Xét nghiệm đánh giá SVR12
+        <button type="button" nz-button nzType="default" *ngIf='!isView'
+            (click)="addXetNghiem('Tải lượng HCV RNA',nhomXetNghiemNhieuLan.HCV_ARN)"><i nz-icon nzType="plus"
+                nzTheme="outline"></i> Thêm xét nghiệm</button>
+    </h3>
+    <nz-row class="row-border header">
+        <nz-col nzLg="4">
+            Thao tác
+        </nz-col>
+        <nz-col nzLg="4">
+            Ngày làm
+        </nz-col>
+        <nz-col nzLg="4">
+            Đơn vị
+        </nz-col>
+        <nz-col nzLg="4">
+            Chỉ số
+        </nz-col>
+        <nz-col nzLg="8">
+            Ngưỡng
+        </nz-col>
+    </nz-row>
+    <ng-container *ngFor="let item of xetNghiems.controls;index as i">
+        <ng-container [formGroup]="item">
+            <nz-row class="row-border no-border-top" *ngIf="item.get('isDeleted').value==false">
+                <nz-col nzLg="4">
+                    <a *ngIf='!isView' (click)="deleteXetNghiem(i)"><i nz-icon nzType="delete"></i> Xóa</a>
+                </nz-col>
+                <nz-col nzLg="4">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Giá trị bắt buộc!">
+                            <ora-date-picker [disabled]="isView" formControlName="ngayLam"
+                                [disabledDate]='disabledDate'>
+                            </ora-date-picker>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg="4">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Giá trị bắt buộc!">
+                            <ora-select dirDonViXetNghiem [disabled]="isView" formControlName="donVi"></ora-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg="4">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Giá trị bắt buộc!">
+                            <nz-input-number [nzDisabled]="isView" style="width: 100%;" formControlName="chiSo">
+                            </nz-input-number>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+                <nz-col nzLg="8">
+                    <nz-form-item>
+                        <nz-form-control nzErrorTip="Giá trị bắt buộc!">
+                            <ora-radio dirNhomNguong [disabled]="isView" formControlName="nguong"></ora-radio>
+                        </nz-form-control>
+                    </nz-form-item>
+                </nz-col>
+            </nz-row>
+        </ng-container>
+    </ng-container>
+</form>
+<div *nzModalFooter>
+    <button type="button" nz-button nzType="default" (click)="close()">Đóng</button>
+    <button type="button" *ngIf='!isView' [nzLoading]="saving" nz-button nzType="primary" (click)="save()">
+        <i nz-icon nzType="save"></i>Lưu
+    </button>
+</div>

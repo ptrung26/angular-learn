@@ -1,0 +1,14 @@
+<div class="list-switch" #listSwitch (mousedown)="onMouseDownList($event)" (mousemove)="mouseMove($event)"
+     (mouseleave)="mouseLeave()"
+     (mouseup)="mouseUp()"
+>
+    <ora-switch *ngFor="let data of dataSource; index as i"
+                [ngModel]="selectedId===data.id"
+                [title]="data.title"
+                [imgSrc]="data.imgSrc"
+                [alowClickToChange]="false"
+                (onClick)="onClick(i)">
+
+    </ora-switch>
+</div>
+

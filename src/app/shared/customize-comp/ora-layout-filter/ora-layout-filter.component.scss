@@ -1,0 +1,26 @@
+.root {
+    background-color: white;
+    border-radius: 3px;
+    margin: 0 0 10px !important;
+    flex-flow: row;
+
+    .col-filter {
+        text-align: center;
+    }
+
+    .col-content {
+        border-left: 1px solid #ECEDF3;
+        border-right: 1px solid #ECEDF3;
+        padding: 10px;
+    }
+
+    .col-action {
+        text-align: center;
+
+        .btn-search {
+            color: white;
+            background-color: #677987;
+        }
+    }
+
+}

@@ -1,0 +1,141 @@
+<ora-page-header [title]='headerTitle' [action]='actionHeader'>
+    <ng-template #actionHeader>
+        <button type='button' nz-button nzType='default' (click)='close(false)'>Đóng</button>
+<!--        <button type='button' *ngIf='!isView' [nzLoading]='saving' nz-button nzType='primary' (click)='save()'><i-->
+<!--            nz-icon-->
+<!--            nzType='save'></i>Lưu-->
+<!--        </button>-->
+        <button type='button' *ngIf='!isView' [nzLoading]='saving' nz-button nzType='primary' (click)='saveAndSync()'><i
+            nz-icon
+            nzType='save'></i>Lưu & Đồng bộ
+        </button>
+    </ng-template>
+</ora-page-header>
+<nz-content class='bgwhite'>
+    <div style="margin-bottom: 20px">
+        <nz-row nzGutter='8'>
+            <nz-col nzSpan="4">
+                <form nz-form [formGroup]='rfDataModal' nzLayout='horizontal'>
+                    <nz-select formControlName="maHoa" style="width: 100%;" (ngModelChange)="changeMaHoa($event)" nzPlaceHolder="">
+                        <nz-option *ngFor="let item of optionMaHoa" [nzLabel]="item.name"
+                                   [nzValue]="item.id"></nz-option>
+                    </nz-select>
+                </form>
+            </nz-col>
+            <nz-col nzSpan="20">
+                <nz-upload nzAccept=".zip" [nzMultiple]="false" [nzFileList]="fileList"
+                           (nzChange)="handleChange($event)"
+                           [nzAction]="url">
+                    <button nz-button><i nz-icon nzType="upload"></i><span>Chọn tệp tải lên</span></button>
+                </nz-upload>
+            </nz-col>
+        </nz-row>
+    </div>
+    <nz-tabset nzType='card' class='parentTab' *ngIf="error.length===0">
+        <nz-tab [nzTitle]="titleHopLe" nzForceRender='true'>
+            <ng-template #titleHopLe>
+                Ca bệnh hợp lệ <span class="tab-span">({{ dataHopLe.length }})</span>
+            </ng-template>
+            <nz-table #tableHopLe [nzData]="dataHopLe" style="width: 100%" nzPageSize="500">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã BN</th>
+                    <th>Tên BN</th>
+                    <th>Giới tính</th>
+                    <th>Năm sinh</th>
+                    <th>Địa chỉ</th>
+                    <th>Ca bệnh</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let dataItem of tableHopLe.data;index as i">
+                    <td>{{i + 1}}</td>
+                    <td>{{dataItem.maBN}}</td>
+                    <td>{{dataItem.hoTen}}</td>
+                    <td>
+                        {{ dataItem.strGioiTinh }}
+                    </td>
+                    <td>{{dataItem.namSinh}}</td>
+                    <td>{{dataItem.diaChi}}</td>
+                    <td>
+                        {{dataItem.id > 0 ? "Ca bệnh cũ" : "Ca bệnh mới"}}
+                    </td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab>
+        <nz-tab [nzTitle]="titleKhongHopLe" nzForceRender='true'>
+            <ng-template #titleKhongHopLe>
+                Ca bệnh không hợp lệ <span class="tab-span">({{ dataKhongHopLe.length }})</span>
+            </ng-template>
+            <nz-table #tableKhongHopLe [nzData]="dataKhongHopLe" style="width: 100%" nzPageSize="500">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Mã BN</th>
+                    <th>Tên BN</th>
+                    <th>Giới tính</th>
+                    <th>Năm sinh</th>
+                    <th>Địa chỉ</th>
+                    <th>Ca bệnh</th>
+                    <th>Chi tiết lỗi</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let dataItem of tableKhongHopLe.data;index as i">
+                    <td>{{i + 1}}</td>
+                    <td>{{dataItem.maBN}}</td>
+                    <td>{{dataItem.hoTen}}</td>
+                    <td>
+                        {{ dataItem.strGioiTinh }}
+                    </td>
+                    <td>{{dataItem.namSinh}}</td>
+                    <td>{{dataItem.diaChi}}</td>
+                    <td>
+                        <span style="color: #0c6322" *ngIf="dataItem.id > 0"><b>Ca bệnh cũ</b></span>
+                        <span *ngIf="dataItem.id < 1">Ca bệnh mới</span>
+                    </td>
+                    <td>
+                        <a nz-popover nzPopoverTitle='Chi tiết lỗi' [nzPopoverContent]='contentTemplate'
+                           nzPopoverTrigger='hover'>
+                            Không hợp lệ
+                        </a>
+                        <ng-template #contentTemplate>
+                            <ul>
+                                <li *ngFor='let error of dataItem.listError'>
+                                    {{error}}
+                                </li>
+                            </ul>
+                        </ng-template>
+                    </td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab>
+        <nz-tab [nzTitle]="titleLoiCauTruc" nzForceRender='true'>
+            <ng-template #titleLoiCauTruc>
+                File lỗi cấu trúc <span class="tab-span">({{ listFileError.length }})</span>
+            </ng-template>
+            <nz-table #tableLoiCauTru [nzData]="listFileError" style="width: 100%" nzPageSize="500">
+                <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên file</th>
+                    <th>Lỗi</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let dataItem of tableLoiCauTru.data;index as i">
+                    <td>{{i + 1}}</td>
+                    <td>{{dataItem.fileName}}</td>
+                    <td>{{dataItem.error}}</td>
+                </tr>
+                </tbody>
+            </nz-table>
+        </nz-tab>
+    </nz-tabset>
+    <div *ngIf="error.length>0">
+        {{error}}
+    </div>
+</nz-content>

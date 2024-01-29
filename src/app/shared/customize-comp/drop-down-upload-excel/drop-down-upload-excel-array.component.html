@@ -1,0 +1,35 @@
+<button class="kt-margin-r-10" nz-button nz-dropdown nzType="default" [nzLoading]="isUploading"
+    [nzDropdownMenu]="menuExcel">
+    <i class="far fa-file-excel kt-margin-r-5"></i> Thao tác Excel
+    <i nz-icon nzType="down"></i>
+</button>
+<nz-dropdown-menu #menuExcel>
+    <ul nz-menu>
+        <li nz-menu-item>
+            <button nz-button nzType="link" (click)="fileUpload.click()"><i nz-icon nzType="plus" nzTheme="outline"></i>
+                {{importText}}
+            </button>
+            <input type="file" #fileUpload id="fileUpload" name="fileUpload" [formControl]="fileControl"
+                (change)="onFileChange($event)"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="display:none;" />
+        </li>
+        <li nz-menu-item>
+            <a style='color: #1d77a3; padding-left: 30px; font-size: 14px;' [href]="urlMauFile"><i
+                    style='font-size: 14px' nz-icon nzType="download" nzTheme="outline"></i>
+                Tải file import mẫu
+            </a>
+        </li>
+        <li nz-menu-item *ngIf="itemMenu1">
+            <ng-container *ngTemplateOutlet="itemMenu1"></ng-container>
+        </li>
+        <li nz-menu-item *ngIf="itemMenu2">
+            <ng-container *ngTemplateOutlet="itemMenu2"></ng-container>
+        </li>
+        <li nz-menu-item *ngIf="itemMenu3">
+            <ng-container *ngTemplateOutlet="itemMenu3"></ng-container>
+        </li>
+        <ng-template *ngIf="(itemMenu1 && itemMenu2) || (itemMenu2 && itemMenu3) || (itemMenu1 && itemMenu3)">
+            <li nz-menu-divider></li>
+        </ng-template>
+    </ul>
+</nz-dropdown-menu>
